@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using InvoiceManagementSystemAPI.Models;
+using Microsoft.EntityFrameworkCore;
 namespace InvoiceManagementSystemAPI.Data
 {
     public class ApplicationDbContext:DbContext
@@ -7,6 +8,7 @@ namespace InvoiceManagementSystemAPI.Data
         {
 
         }
+        public DbSet<Invoice> Invoices { get; set; }
         
     }
 }
