@@ -15,6 +15,5 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Models\Dto\" />
-        <Folder Include="Repository\IRepository\" />
     </ItemGroup>
 </Project>
