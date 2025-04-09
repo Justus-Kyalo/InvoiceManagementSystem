@@ -12,7 +12,7 @@ public class CustomerRepository:Repository<Customer>,ICustomerRepository
         _db = db;
     }
 
-    public async Task<Customer> UpdateCustomer(Customer entity)
+    public async Task<Customer> UpdateAsync(Customer entity)
     {
        _db.Customers.Update(entity);
        await _db.SaveChangesAsync();
