@@ -122,7 +122,7 @@ namespace InvoiceManagementSystemAPI.Controllers
             {
                 _response.Errors.Add(e.ToString());
                 _response.IsSuccess = false;
-                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.StatusCode = HttpStatusCode.InternalServerError;
             }
 
             return _response;
@@ -188,7 +188,7 @@ namespace InvoiceManagementSystemAPI.Controllers
         [HttpDelete("{id}", Name = "DeleteInvoice")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
-        [ProducesResponseType(404)]
+        
         public async Task<ActionResult<APIResponse>> DeleteInvoice(int id)
         {
             try
