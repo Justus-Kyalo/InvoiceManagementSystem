@@ -12,6 +12,10 @@ public class MappingConfig:Profile
         CreateMap<InvoiceDto, Invoice>();
         CreateMap<Invoice,InvoiceCreateDto>().ReverseMap();
         CreateMap<Invoice,InvoiceUpdateDto>().ReverseMap();
+        CreateMap<Customer, CustomerDto>();
+        CreateMap<CustomerDto, Customer>();
+        CreateMap<Customer,CustomerCreateDto>().ReverseMap();
+        CreateMap<Customer,CustomerUpdateDto>().ReverseMap();
     }
     
 }
