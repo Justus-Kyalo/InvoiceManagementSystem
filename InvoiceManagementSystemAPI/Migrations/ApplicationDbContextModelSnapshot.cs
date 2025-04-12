@@ -49,6 +49,36 @@ namespace InvoiceManagementSystemAPI.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("InvoiceManagementSystemAPI.Models.IIFBackup", b =>
+                {
+                    b.Property<int>("IIFBackupId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IIFBackupId"));
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("GeneratedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("IIFBackupId");
+
+                    b.ToTable("IIFBackups");
+                });
+
             modelBuilder.Entity("InvoiceManagementSystemAPI.Models.Invoice", b =>
                 {
                     b.Property<int>("InvoiceId")
