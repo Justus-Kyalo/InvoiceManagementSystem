@@ -15,7 +15,7 @@ public class IIFBackupRepository:Repository<IIFBackup>,IIIFBackupRepository
     public async Task CreateAsync(IIFBackup entity)
     {
         entity.GeneratedOn=DateTime.Now;
-        await _db.IIIFBackups.AddAsync(entity);
+        await _db.IIFBackups.AddAsync(entity);
         await _db.SaveChangesAsync();
     }
 }

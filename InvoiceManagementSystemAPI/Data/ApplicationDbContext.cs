@@ -11,7 +11,7 @@ namespace InvoiceManagementSystemAPI.Data
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<Customer> Customers { get; set; }
         
-        public DbSet<IIFBackup> IIIFBackups { get; set; }
+        public DbSet<IIFBackup> IIFBackups { get; set; }
         
     }
 }
