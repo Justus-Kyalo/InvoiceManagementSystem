@@ -2,6 +2,8 @@ using InvoiceManagementSystemAPI;
 using InvoiceManagementSystemAPI.Data;
 using InvoiceManagementSystemAPI.Repository;
 using InvoiceManagementSystemAPI.Repository.IRepository;
+using InvoiceManagementSystemAPI.Services;
+using InvoiceManagementSystemAPI.Services.IServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
@@ -19,6 +21,8 @@ builder.Services.AddControllers(option=>{}).AddNewtonsoftJson();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IIIFBackupRepository, IIFBackupRepository>();
+builder.Services.AddScoped<IIIFGeneratorService, IIFGeneratorService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
