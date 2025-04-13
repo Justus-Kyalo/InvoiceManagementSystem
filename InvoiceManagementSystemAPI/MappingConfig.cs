@@ -16,6 +16,8 @@ public class MappingConfig:Profile
         CreateMap<CustomerDto, Customer>();
         CreateMap<Customer,CustomerCreateDto>().ReverseMap();
         CreateMap<Customer,CustomerUpdateDto>().ReverseMap();
+        CreateMap<IIFBackup, IIFBackupDto>();
+        CreateMap<IIFBackupDto, IIFBackup>();
     }
     
 }
