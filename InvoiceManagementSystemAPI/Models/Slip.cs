@@ -3,22 +3,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InvoiceManagementSystemAPI.Models
 {
-    public class Invoice
+    public class Slip
     {
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int InvoiceId { get; set; }
+        public int SlipId { get; set; }
+        [Required]
         public string CustomerAccountNumber { get; set; }
-        public string Item {  get; set; }
-        public  DateTime  InvoiceDate { get; set; }
+        [Required]
+        public List<SlipItem> SlipItems {  get; set; }
+        [Required]
+        public  DateTime  SlipDate { get; set; }
+        [Required]
         public string VehicleRegistration { get; set; }
-        public  string Description { get; set; }
-        public string CollectionSlipNumber { get; set; }
+        [Required]
+        public string SlipNumber { get; set; }
+        [Required]
         public string Status { get; set; }
-        public decimal VAT {  get; set; }
-        public decimal Rate { get; set; }
-        public int Quantity { get; set; }
-        public decimal Total { get; set; }
+        [Required]
         public DateTime createdDate { get; set; }
+        [Required]
         public DateTime updatedDate { get; set; }
 
 
