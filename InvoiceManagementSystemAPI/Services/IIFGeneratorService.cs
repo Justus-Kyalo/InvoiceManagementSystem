@@ -6,7 +6,7 @@ namespace InvoiceManagementSystemAPI.Services;
 
 public class IIFGeneratorService:IIIFGeneratorService
 {
-    public string GenerateIIFContent(List<Invoice> invoices)
+    public string GenerateIIFContent(List<Slip> slips)
     {
         var sb = new StringBuilder();
 
@@ -14,32 +14,32 @@ public class IIFGeneratorService:IIIFGeneratorService
         sb.AppendLine("!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tAMOUNT\tDOCNUM\tMEMO");
         sb.AppendLine("!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tAMOUNT\tDOCNUM\tMEMO");
 
-        foreach (var invoice in invoices)
+        foreach (var slip in slips)
         {
             // TRNS Line (Accounts Receivable)
             sb.AppendLine(
                 $"TRNS\t" +
-                $"{invoice.InvoiceId}\t" +                   
+                $"{slip.SlipId}\t" +                   
                 $"INVOICE\t" +                        
-                $"{invoice.InvoiceDate:MM/dd/yyyy}\t" +      
+                $"{slip.SlipDate:MM/dd/yyyy}\t" +      
                 $"ACCOUNTS RECEIVABLE\t" +            
-                $"{invoice.CustomerAccountNumber}\t" + 
-                $"{invoice.Total}\t" +                
-                $"{invoice.CollectionSlipNumber}\t" + 
-                $"{invoice.Description}"              
+                $"{slip.CustomerAccountNumber}\t" + 
+                // $"{slip.Total}\t" +                
+                $"{slip.SlipNumber}\t"// + 
+                // $"{slip.Description}"              
             );
 
             // SPL Line (Sales Account)
             sb.AppendLine(
                 $"SPL\t" +
-                $"{invoice.InvoiceId}\t" +                   
+                $"{slip.SlipId}\t" +                   
                 $"INVOICE\t" +                        
-                $"{invoice.InvoiceDate:MM/dd/yyyy}\t" +      
+                $"{slip.SlipDate:MM/dd/yyyy}\t" +      
                 $"SALES\t" +                          
-                $"{invoice.CustomerAccountNumber}\t" + 
-                $"{invoice.Total}\t" +                
-                $"{invoice.CollectionSlipNumber}\t" + 
-                $"{invoice.Description}"              
+                $"{slip.CustomerAccountNumber}\t" + 
+                // $"{slip.Total}\t" +                
+                $"{slip.SlipNumber}\t" //+ 
+                // $"{slip.Description}"              
             );
         }
 
