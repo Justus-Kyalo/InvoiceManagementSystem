@@ -15,14 +15,14 @@ namespace InvoiceManagementSystemAPI.Controllers
     public class IIFController : ControllerBase
     {
         private readonly IIIFBackupRepository _dbIIFBackup;
-        private readonly IInvoiceRepository _dbInvoice;
+        private readonly ISlipRepository _dbSlip;
         private readonly IIIFGeneratorService _iifService;
         private readonly IMapper _mapper;
         internal APIResponse _response;
-        public IIFController(IIIFBackupRepository dbIIFBackup, IInvoiceRepository dbInvoice,IIIFGeneratorService iifService,IMapper mapper)
+        public IIFController(IIIFBackupRepository dbIIFBackup, ISlipRepository dbSlip,IIIFGeneratorService iifService,IMapper mapper)
         {
             _dbIIFBackup = dbIIFBackup;
-            _dbInvoice = dbInvoice;
+            _dbSlip = dbSlip;
             _iifService = iifService;
             _mapper = mapper;
             _response = new();
@@ -118,15 +118,15 @@ namespace InvoiceManagementSystemAPI.Controllers
 
                 }
               
-                List<Invoice> invoices =  await _dbInvoice.GetAllAsync(u =>
-                    u.InvoiceDate >= createDto.StartDate && u.InvoiceDate <= createDto.EndDate);
+                List<Slip> slips =  await _dbSlip.GetAllAsync(u =>
+                    u.SlipDate >= createDto.StartDate && u.SlipDate <= createDto.EndDate);
                 
            
-                string iifContent = _iifService.GenerateIIFContent(invoices);
+                string iifContent = _iifService.GenerateIIFContent(slips);
 
                 var backup = new IIFBackup
                 {
-                    FileName = $"Invoices_{createDto.StartDate:yyyyMMdd}_to_{createDto.EndDate:yyyyMMdd}.iif",
+                    FileName = $"Invoice_{createDto.StartDate:yyyyMMdd}_to_{createDto.EndDate:yyyyMMdd}.iif",
                     FileContent = iifContent,
                     StartDate = createDto.StartDate,
                     EndDate = createDto.EndDate,
