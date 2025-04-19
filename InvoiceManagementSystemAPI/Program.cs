@@ -19,10 +19,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
 
 builder.Services.AddControllers(option=>{}).AddNewtonsoftJson();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
-builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+builder.Services.AddScoped<ISlipRepository, SlipRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IIIFBackupRepository, IIFBackupRepository>();
 builder.Services.AddScoped<IIIFGeneratorService, IIFGeneratorService>();
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
