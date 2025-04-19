@@ -8,16 +8,20 @@ public class MappingConfig:Profile
 {
     public MappingConfig()
     {
-        CreateMap<Invoice, InvoiceDto>();
-        CreateMap<InvoiceDto, Invoice>();
-        CreateMap<Invoice,InvoiceCreateDto>().ReverseMap();
-        CreateMap<Invoice,InvoiceUpdateDto>().ReverseMap();
+        CreateMap<Slip, SlipDto>();
+        CreateMap<SlipDto, Slip>();
+        CreateMap<Slip,SlipCreateDto>().ReverseMap();
+        CreateMap<Slip,SlipUpdateDto>().ReverseMap();
         CreateMap<Customer, CustomerDto>();
         CreateMap<CustomerDto, Customer>();
         CreateMap<Customer,CustomerCreateDto>().ReverseMap();
         CreateMap<Customer,CustomerUpdateDto>().ReverseMap();
         CreateMap<IIFBackup, IIFBackupDto>();
         CreateMap<IIFBackupDto, IIFBackup>();
+        CreateMap<Item, ItemDto>();
+        CreateMap<ItemDto, Item>();
+        CreateMap<Item, ItemCreateDto>().ReverseMap();
+        CreateMap<Item, ItemUpdateDto>().ReverseMap();
     }
     
 }
