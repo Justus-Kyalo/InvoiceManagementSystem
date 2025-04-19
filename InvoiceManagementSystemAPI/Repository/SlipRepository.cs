@@ -4,19 +4,19 @@ using InvoiceManagementSystemAPI.Repository.IRepository;
 
 namespace InvoiceManagementSystemAPI.Repository;
 
-public class InvoiceRepository:Repository<Invoice>,IInvoiceRepository
+public class SlipRepository:Repository<Slip>,ISlipRepository
 {
     private readonly ApplicationDbContext _db;
-    public InvoiceRepository(ApplicationDbContext db):base(db)
+    public SlipRepository(ApplicationDbContext db):base(db)
     {
         _db = db;
 
     }
 
-    public async Task<Invoice> UpdateAsync(Invoice entity)
+    public async Task<Slip> UpdateAsync(Slip entity)
     {
       entity.updatedDate=DateTime.Now;
-      _db.Invoices.Update(entity);
+      _db.Slips.Update(entity);
       await _db.SaveChangesAsync();
       return entity;
     }

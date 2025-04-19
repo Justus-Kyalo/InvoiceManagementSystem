@@ -10,28 +10,28 @@ namespace InvoiceManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InvoicesController : ControllerBase
+    public class SlipsController : ControllerBase
     {
-        private readonly IInvoiceRepository _dbInvoice;
+        private readonly ISlipRepository _dbSlip;
         private readonly IMapper _mapper;
         private  APIResponse _response;
         
 
-        public InvoicesController(IInvoiceRepository dbInvoice,IMapper mapper)
+        public SlipsController(ISlipRepository dbSlip,IMapper mapper)
         {
-            _dbInvoice = dbInvoice;
+            _dbSlip = dbSlip;
             _mapper = mapper;
             _response = new();
         }
 
         [HttpGet]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<APIResponse>> GetInvoices()
+        public async Task<ActionResult<APIResponse>> GetSlipsAsync()
         {
             try
             {
-                IEnumerable<Invoice> invoicesList = await _dbInvoice.GetAllAsync();
-                _response.Result = _mapper.Map < List<InvoiceDto>>(invoicesList);
+                IEnumerable<Slip> slipssList = await _dbSlip.GetAllAsync();
+                _response.Result = _mapper.Map < List<SlipDto>>(slipssList);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }
@@ -46,11 +46,11 @@ namespace InvoiceManagementSystemAPI.Controllers
             return _response;
         }
 
-        [HttpGet("{id}", Name = "GetInvoice")]
+        [HttpGet("{id}", Name = "GetSlipAsync")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<APIResponse>> GetInvoice(int id)
+        public async Task<ActionResult<APIResponse>> GetSlipAsync(int id)
         {
 
             try
@@ -60,13 +60,13 @@ namespace InvoiceManagementSystemAPI.Controllers
                     return BadRequest("Invalid Id");
                 }
 
-                var invoice = await _dbInvoice.GetAsync(u => u.InvoiceId == id);
-                if (invoice == null)
+                var slip = await _dbSlip.GetAsync(u => u.SlipId == id);
+                if (slip == null)
                 {
                     return NotFound();
                 }
 
-                _response.Result = _mapper.Map<InvoiceDto>(invoice);
+                _response.Result = _mapper.Map<SlipDto>(slip);
                 _response.StatusCode = HttpStatusCode.OK;
 
                 return Ok(_response);
@@ -88,15 +88,15 @@ namespace InvoiceManagementSystemAPI.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
 
-        public async Task<ActionResult<APIResponse>> CreateInvoice([FromBody] InvoiceCreateDto createDto)
+        public async Task<ActionResult<APIResponse>> CreateSlipAsync([FromBody] SlipCreateDto createDto)
         {
             try
             {
-                if (await _dbInvoice.GetAsync(u =>
-                        u.CollectionSlipNumber.ToLower() == createDto.CollectionSlipNumber.ToLower()) != null)
+                if (await _dbSlip.GetAsync(u =>
+                        u.SlipNumber.ToLower() == createDto.SlipNumber.ToLower()) != null)
 
                 {
-                    ModelState.AddModelError("customError", "invoice with this collection slip Number already exists");
+                    ModelState.AddModelError("customError", "slip with this collection slip Number already exists");
                     return BadRequest(ModelState);
 
                 }
@@ -104,17 +104,17 @@ namespace InvoiceManagementSystemAPI.Controllers
                 if (createDto == null)
                 {
                     _response.StatusCode = HttpStatusCode.BadRequest;
-                    return BadRequest("Invalid Invoice");
+                    return BadRequest("Invalid slip");
                 }
 
-                Invoice invoice = _mapper.Map<Invoice>(createDto);
-                await _dbInvoice.CreateAsync(invoice);
-                await _dbInvoice.SaveAsync();
-                _response.Result = invoice;
+                Slip slip = _mapper.Map<Slip>(createDto);
+                await _dbSlip.CreateAsync(slip);
+                await _dbSlip.SaveAsync();
+                _response.Result = slip;
                 _response.StatusCode = HttpStatusCode.Created;
-                return CreatedAtRoute("GetInvoice",new
+                return CreatedAtRoute("GetSlipAsync",new
                 {
-                    id=invoice.InvoiceId
+                    id=slip.SlipId
                 },_response);
 
             }
@@ -132,19 +132,19 @@ namespace InvoiceManagementSystemAPI.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
 
-        public async Task<ActionResult<APIResponse>> UpdateInvoice(int id, [FromBody] InvoiceUpdateDto updateDto)
+        public async Task<ActionResult<APIResponse>> UpdateSlipAsync(int id, [FromBody] SlipUpdateDto updateDto)
         {
             try
             {
-                if (id == null || updateDto.InvoiceId != id)
+                if (id == 0 || updateDto.SlipId != id)
                 {
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     _response.IsSuccess = false;
                     return BadRequest(_response);
                 }
 
-                Invoice invoice = _mapper.Map<Invoice>(updateDto);
-                await _dbInvoice.UpdateAsync(invoice);
+                Slip slip = _mapper.Map<Slip>(updateDto);
+                await _dbSlip.UpdateAsync(slip);
                 _response.StatusCode = HttpStatusCode.NoContent;
                 return Ok(_response);
 
@@ -159,22 +159,22 @@ namespace InvoiceManagementSystemAPI.Controllers
             return (_response);
         }
 
-        [HttpPatch("{id}", Name = "UpdatePartialInvoice")]
+        [HttpPatch("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
-        public async Task<IActionResult> UpdatePartialInvoice(int id, JsonPatchDocument <InvoiceUpdateDto> patchDto)
+        public async Task<IActionResult> UpdatePartialSlipAsync(int id, JsonPatchDocument <SlipUpdateDto> patchDto)
         {
             if (patchDto == null || id == 0)
             {
                 return BadRequest();
             }
 
-            var invoice = await _dbInvoice.GetAsync(u => u.InvoiceId == id, tracked: false);
+            var slip = await _dbSlip.GetAsync(u => u.SlipId == id, tracked: false);
 
-            InvoiceUpdateDto invoiceDto = _mapper.Map<InvoiceUpdateDto>(invoice);
-            patchDto.ApplyTo(invoiceDto, ModelState);
-            Invoice model = _mapper.Map<Invoice>(invoiceDto);
-            await _dbInvoice.UpdateAsync(model);
+            SlipUpdateDto slipDto = _mapper.Map<SlipUpdateDto>(slip);
+            patchDto.ApplyTo(slipDto, ModelState);
+            Slip model = _mapper.Map<Slip>(slipDto);
+            await _dbSlip.UpdateAsync(model);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -185,11 +185,11 @@ namespace InvoiceManagementSystemAPI.Controllers
 
         }
 
-        [HttpDelete("{id}", Name = "DeleteInvoice")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         
-        public async Task<ActionResult<APIResponse>> DeleteInvoice(int id)
+        public async Task<ActionResult<APIResponse>> DeleteSlipAsync(int id)
         {
             try
             {
@@ -199,16 +199,16 @@ namespace InvoiceManagementSystemAPI.Controllers
                     return BadRequest();
                 }
 
-                var invoice = await _dbInvoice.GetAsync(u => u.InvoiceId == id);
+                var slip = await _dbSlip.GetAsync(u => u.SlipId == id);
 
-                if (invoice == null)
+                if (slip == null)
                 {
                     _response.StatusCode = HttpStatusCode.NoContent;
                     return NoContent();
                 }
 
-                await _dbInvoice.RemoveAsync(invoice);
-                await _dbInvoice.SaveAsync();
+                await _dbSlip.RemoveAsync(slip);
+                await _dbSlip.SaveAsync();
                 _response.StatusCode = HttpStatusCode.NoContent;
 
                 return Ok(_response);
