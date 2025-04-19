@@ -79,48 +79,45 @@ namespace InvoiceManagementSystemAPI.Migrations
                     b.ToTable("IIFBackups");
                 });
 
-            modelBuilder.Entity("InvoiceManagementSystemAPI.Models.Invoice", b =>
+            modelBuilder.Entity("InvoiceManagementSystemAPI.Models.Item", b =>
                 {
-                    b.Property<int>("InvoiceId")
+                    b.Property<int>("ItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InvoiceId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemId"));
 
-                    b.Property<string>("CollectionSlipNumber")
+                    b.Property<string>("ItemName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ItemId");
+
+                    b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("InvoiceManagementSystemAPI.Models.Slip", b =>
+                {
+                    b.Property<int>("SlipId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SlipId"));
 
                     b.Property<string>("CustomerAccountNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("InvoiceDate")
+                    b.Property<DateTime>("SlipDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Item")
+                    b.Property<string>("SlipNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Rate")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("VAT")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("VehicleRegistration")
                         .IsRequired()
@@ -132,9 +129,62 @@ namespace InvoiceManagementSystemAPI.Migrations
                     b.Property<DateTime>("updatedDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("InvoiceId");
+                    b.HasKey("SlipId");
 
-                    b.ToTable("Invoices");
+                    b.ToTable("Slips");
+                });
+
+            modelBuilder.Entity("InvoiceManagementSystemAPI.Models.SlipItem", b =>
+                {
+                    b.Property<int>("SlipItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SlipItemId"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SlipId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SlipItemId");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("SlipId");
+
+                    b.ToTable("SlipItems");
+                });
+
+            modelBuilder.Entity("InvoiceManagementSystemAPI.Models.SlipItem", b =>
+                {
+                    b.HasOne("InvoiceManagementSystemAPI.Models.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InvoiceManagementSystemAPI.Models.Slip", "Slip")
+                        .WithMany("SlipItems")
+                        .HasForeignKey("SlipId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Slip");
+                });
+
+            modelBuilder.Entity("InvoiceManagementSystemAPI.Models.Slip", b =>
+                {
+                    b.Navigation("SlipItems");
                 });
 #pragma warning restore 612, 618
         }
