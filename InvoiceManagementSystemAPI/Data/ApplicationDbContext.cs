@@ -8,8 +8,11 @@ namespace InvoiceManagementSystemAPI.Data
         {
 
         }
-        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<Slip> Slips { get; set; }
+        public DbSet<SlipItem> SlipItems { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        
+        public DbSet<Item> Items { get; set; }
         
         public DbSet<IIFBackup> IIFBackups { get; set; }
         
