@@ -29,7 +29,7 @@ namespace InvoiceManagementSystemAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<APIResponse>> GetCustomers()
+        public async Task<ActionResult<APIResponse>> GetCustomersAsync()
         {
             try
             {
@@ -50,12 +50,12 @@ namespace InvoiceManagementSystemAPI.Controllers
 
             return _response;
         }
-        [HttpGet("{id}",Name="GetCustomer")]
+        [HttpGet("{id}",Name="GetCustomerAsync")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
 
-        public async Task<ActionResult<APIResponse>> GetCustomer(int  id)
+        public async Task<ActionResult<APIResponse>> GetCustomerAsync(int  id)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace InvoiceManagementSystemAPI.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
 
-        public async Task<ActionResult<APIResponse>> CreateCustomer([FromBody] CustomerCreateDto createDto)
+        public async Task<ActionResult<APIResponse>> CreateCustomerAsync([FromBody] CustomerCreateDto createDto)
         {
             try
             {
@@ -136,7 +136,7 @@ namespace InvoiceManagementSystemAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
 
-        public async Task<ActionResult<APIResponse>> UpdateCustomer([FromBody] CustomerUpdateDto updateDto,int id)
+        public async Task<ActionResult<APIResponse>> UpdateCustomerAsync([FromBody] CustomerUpdateDto updateDto,int id)
         {
             try
             {
@@ -169,7 +169,7 @@ namespace InvoiceManagementSystemAPI.Controllers
         [ProducesResponseType(404)]
         
 
-        public async Task<ActionResult<APIResponse>> UpdatePartialCustomer(int id, JsonPatchDocument <CustomerUpdateDto> patchDto)
+        public async Task<ActionResult<APIResponse>> UpdatePartialCustomerAsync(int id, JsonPatchDocument <CustomerUpdateDto> patchDto)
         {
             try
             {
@@ -214,7 +214,7 @@ namespace InvoiceManagementSystemAPI.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         
-        public async Task<ActionResult<APIResponse>> DeleteCustomer(int id)
+        public async Task<ActionResult<APIResponse>> DeleteCustomerAsync(int id)
         {
             try
             {
