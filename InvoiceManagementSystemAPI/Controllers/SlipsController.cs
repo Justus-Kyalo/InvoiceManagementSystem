@@ -106,6 +106,7 @@ namespace InvoiceManagementSystemAPI.Controllers
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest("Invalid slip");
                 }
+                createDto.createdDate=DateTime.Now;
 
                 Slip slip = _mapper.Map<Slip>(createDto);
                 await _dbSlip.CreateAsync(slip);
