@@ -16,5 +16,7 @@ public class SlipCreateDto
     public string SlipNumber { get; set; }
     [Required]
     public string Status { get; set; }
-    
+    [Required]
+    public DateTime createdDate { get; set; }
+
 }
