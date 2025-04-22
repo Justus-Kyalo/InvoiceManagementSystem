@@ -10,7 +10,7 @@ namespace InvoiceManagementSystemAPI.Models
         [Required]
         public string CustomerAccountNumber { get; set; }
         [Required]
-        public List<SlipItem> SlipItems {  get; set; }
+        public ICollection<SlipItem> SlipItems {  get; set; }
         [Required]
         public  DateTime  SlipDate { get; set; }
         [Required]

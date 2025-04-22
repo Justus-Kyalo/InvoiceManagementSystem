@@ -9,5 +9,6 @@ public class Item
     public int ItemId { get; set; }
     [Required]
     public string ItemName { get; set; }
+    public ICollection<SlipItem> SlipItems { get; set; }
     
 }
