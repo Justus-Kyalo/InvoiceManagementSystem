@@ -15,7 +15,7 @@ public class SlipRepository:Repository<Slip>,ISlipRepository
 
     public async Task<Slip> UpdateAsync(Slip entity)
     {
-      entity.updatedDate=DateTime.Now;
+      entity.UpdatedDate=DateTime.Now;
       _db.Slips.Update(entity);
       await _db.SaveChangesAsync();
       return entity;

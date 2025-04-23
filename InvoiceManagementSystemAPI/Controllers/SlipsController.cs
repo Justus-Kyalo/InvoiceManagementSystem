@@ -30,8 +30,8 @@ namespace InvoiceManagementSystemAPI.Controllers
         {
             try
             {
-                IEnumerable<Slip> slipssList = await _dbSlip.GetAllAsync();
-                _response.Result = _mapper.Map < List<SlipDto>>(slipssList);
+                IEnumerable<Slip> slipsList = await _dbSlip.GetAllAsync(includeProperties:u=>u.SlipItems);
+                _response.Result = _mapper.Map < List<SlipDto>>(slipsList);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }
@@ -60,7 +60,7 @@ namespace InvoiceManagementSystemAPI.Controllers
                     return BadRequest("Invalid Id");
                 }
 
-                var slip = await _dbSlip.GetAsync(u => u.SlipId == id);
+                var slip = await _dbSlip.GetAsync(u => u.SlipId == id,includeProperties:u=>u.SlipItems);
                 if (slip == null)
                 {
                     return NotFound();
@@ -106,7 +106,7 @@ namespace InvoiceManagementSystemAPI.Controllers
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest("Invalid slip");
                 }
-                createDto.createdDate=DateTime.Now;
+                createDto.CreatedDate=DateTime.Now;
 
                 Slip slip = _mapper.Map<Slip>(createDto);
                 await _dbSlip.CreateAsync(slip);
