@@ -20,9 +20,9 @@ namespace InvoiceManagementSystemAPI.Models
         [Required]
         public string Status { get; set; }
         [Required]
-        public DateTime createdDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         [Required]
-        public DateTime updatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
 
 
     }
