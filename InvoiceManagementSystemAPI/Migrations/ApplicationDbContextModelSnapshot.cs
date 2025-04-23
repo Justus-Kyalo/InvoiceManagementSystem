@@ -107,6 +107,9 @@ namespace InvoiceManagementSystemAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SlipId"));
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("CustomerAccountNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -122,15 +125,12 @@ namespace InvoiceManagementSystemAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("VehicleRegistration")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("createdDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("updatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("SlipId");
 
