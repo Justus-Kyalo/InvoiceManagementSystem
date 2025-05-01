@@ -8,5 +8,5 @@ public class CustomerDto
     public  string AccountNumber { get; set; }
     public string Name { get; set; }
     public  bool Taxable { get; set; }
-    public  decimal PricePerItem { get; set; }
+    
 }

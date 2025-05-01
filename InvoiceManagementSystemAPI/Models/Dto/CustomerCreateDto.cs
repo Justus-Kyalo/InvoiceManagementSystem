@@ -9,6 +9,5 @@ public class CustomerCreateDto
     public string Name { get; set; }
     [Required]
     public  bool Taxable { get; set; }
-    [Required]
-    public  decimal PricePerItem { get; set; }
+    
 }
