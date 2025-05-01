@@ -38,15 +38,39 @@ namespace InvoiceManagementSystemAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("PricePerItem")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<bool>("Taxable")
                         .HasColumnType("bit");
 
                     b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("InvoiceManagementSystemAPI.Models.CustomerItemPrice", b =>
+                {
+                    b.Property<int>("CustomerItemPriceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerItemPriceId"));
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("CustomerItemPriceId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("CustomerItemPrices");
                 });
 
             modelBuilder.Entity("InvoiceManagementSystemAPI.Models.IIFBackup", b =>
@@ -110,9 +134,8 @@ namespace InvoiceManagementSystemAPI.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CustomerAccountNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("SlipDate")
                         .HasColumnType("datetime2");
@@ -128,14 +151,17 @@ namespace InvoiceManagementSystemAPI.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("VehicleRegistration")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("VehicleId")
+                        .HasColumnType("int");
 
                     b.HasKey("SlipId");
 
+                    b.HasIndex("CustomerId");
+
                     b.HasIndex("SlipNumber")
                         .IsUnique();
+
+                    b.HasIndex("VehicleId");
 
                     b.ToTable("Slips");
                 });
@@ -167,6 +193,64 @@ namespace InvoiceManagementSystemAPI.Migrations
                     b.HasIndex("SlipId");
 
                     b.ToTable("SlipItems");
+                });
+
+            modelBuilder.Entity("InvoiceManagementSystemAPI.Models.Vehicle", b =>
+                {
+                    b.Property<int>("VehicleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleId"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VehicleRegistration")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("VehicleId");
+
+                    b.ToTable("Vehicles");
+                });
+
+            modelBuilder.Entity("InvoiceManagementSystemAPI.Models.CustomerItemPrice", b =>
+                {
+                    b.HasOne("InvoiceManagementSystemAPI.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InvoiceManagementSystemAPI.Models.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("InvoiceManagementSystemAPI.Models.Slip", b =>
+                {
+                    b.HasOne("InvoiceManagementSystemAPI.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InvoiceManagementSystemAPI.Models.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("InvoiceManagementSystemAPI.Models.SlipItem", b =>
