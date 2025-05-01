@@ -22,6 +22,14 @@ public class MappingConfig:Profile
         CreateMap<ItemDto, Item>();
         CreateMap<Item, ItemCreateDto>().ReverseMap();
         CreateMap<Item, ItemUpdateDto>().ReverseMap();
+        CreateMap<Vehicle, VehicleDto>();
+        CreateMap<VehicleDto, Vehicle>();
+        CreateMap<Vehicle, VehicleCreateDto>().ReverseMap();
+        CreateMap<Vehicle, VehicleUpdateDto>().ReverseMap();
+        CreateMap<CustomerItemPrice, CustomerItemPriceDto>();
+        CreateMap<CustomerItemPriceDto, CustomerItemPrice>();
+        CreateMap<CustomerItemPrice, CustomerItemPriceCreateDto>().ReverseMap();
+        CreateMap<CustomerItemPrice, CustomerItemPriceUpdateDto>().ReverseMap();
     }
     
 }
