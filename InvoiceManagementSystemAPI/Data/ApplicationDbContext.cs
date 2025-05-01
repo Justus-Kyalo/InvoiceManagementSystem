@@ -14,7 +14,11 @@ namespace InvoiceManagementSystemAPI.Data
         
         public DbSet<Item> Items { get; set; }
         
+        public DbSet<CustomerItemPrice> CustomerItemPrices { get; set; }
+        
         public DbSet<IIFBackup> IIFBackups { get; set; }
+        
+        public DbSet<Vehicle> Vehicles { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,12 +39,12 @@ namespace InvoiceManagementSystemAPI.Data
             modelBuilder.Entity<Item>()
                 .HasIndex(i => i.ItemName)
                 .IsUnique();
-
+        
             modelBuilder.Entity<Slip>()
                 .HasIndex(i => i.SlipNumber)
                 .IsUnique();
-
-
+        
+        
         }
 
         
