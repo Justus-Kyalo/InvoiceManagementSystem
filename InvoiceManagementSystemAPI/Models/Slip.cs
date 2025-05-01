@@ -8,13 +8,15 @@ namespace InvoiceManagementSystemAPI.Models
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int SlipId { get; set; }
         [Required]
-        public string CustomerAccountNumber { get; set; }
+        [ForeignKey("Customer")]
+        public int CustomerId { get; set; }
         [Required]
         public ICollection<SlipItem> SlipItems {  get; set; }
         [Required]
         public  DateTime  SlipDate { get; set; }
         [Required]
-        public string VehicleRegistration { get; set; }
+        [ForeignKey("Vehicle")]
+        public int VehicleId { get; set; }
         [Required]
         public string SlipNumber { get; set; }
         [Required]
@@ -23,6 +25,11 @@ namespace InvoiceManagementSystemAPI.Models
         public DateTime CreatedDate { get; set; }
         [Required]
         public DateTime UpdatedDate { get; set; }
+        
+        [Required]
+        public Customer?  Customer { get; set; }
+        [Required]
+        public Vehicle?  Vehicle { get; set; }
 
 
     }
