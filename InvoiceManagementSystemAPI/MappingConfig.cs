@@ -16,6 +16,8 @@ public class MappingConfig:Profile
         CreateMap<CustomerDto, Customer>();
         CreateMap<Customer,CustomerCreateDto>().ReverseMap();
         CreateMap<Customer,CustomerUpdateDto>().ReverseMap();
+        CreateMap<Customer, CustomerExtendCIPDto>();
+        CreateMap<CustomerExtendCIPDto, Customer>();
         CreateMap<IIFBackup, IIFBackupDto>();
         CreateMap<IIFBackupDto, IIFBackup>();
         CreateMap<Item, ItemDto>();
@@ -30,6 +32,8 @@ public class MappingConfig:Profile
         CreateMap<CustomerItemPriceDto, CustomerItemPrice>();
         CreateMap<CustomerItemPrice, CustomerItemPriceCreateDto>().ReverseMap();
         CreateMap<CustomerItemPrice, CustomerItemPriceUpdateDto>().ReverseMap();
+        CreateMap<CustomerItemPrice, CustomerItemPriceTrimDto>();
+        CreateMap<CustomerItemPriceTrimDto, CustomerItemPrice>();
     }
     
 }
