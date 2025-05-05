@@ -11,5 +11,8 @@ public class CustomerUpdateDto
     public string Name { get; set; }
     [Required]
     public  bool Taxable { get; set; }
-    
+    [Required]
+    public bool Active { get; set; }
+    [Required]
+    public ICollection<CustomerItemPriceUpdateDto> CustomerItemPrices { get; set; }
 }
