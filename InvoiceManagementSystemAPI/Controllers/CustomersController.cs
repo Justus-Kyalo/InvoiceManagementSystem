@@ -97,7 +97,7 @@ namespace InvoiceManagementSystemAPI.Controllers
         {
             try
             {
-                if (await _dbCustomer.GetAsync(u => u.AccountNumber.ToLower() == createDto.AccountNumber.ToLower()) !=
+                if (await _dbCustomer.GetAsync(u => u.AccountNumber == createDto.AccountNumber) !=
                     null)
                 {
                     ModelState.AddModelError("CustomError", "A Customer with this AccountNumber Already Exists");
@@ -119,7 +119,7 @@ namespace InvoiceManagementSystemAPI.Controllers
 
                  _response.StatusCode = HttpStatusCode.Created;
                  _response.Result = customer;
-                 return CreatedAtRoute("GetCustomer", new { id = customer.CustomerId }, _response);
+                 return CreatedAtRoute("GetCustomerAsync", new { id = customer.CustomerId }, _response);
 
             }
             catch (Exception e)
