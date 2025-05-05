@@ -250,6 +250,44 @@ namespace InvoiceManagementSystemAPI.Controllers
 
             return _response;
         }
+
+        [HttpGet("CustomerItemPrice/{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+
+        public async Task<ActionResult<APIResponse>> GetCustomerItemPriceAsync(int id)
+        {
+            try
+            {
+                if (id == 0)
+                {
+                    return BadRequest("Invalid CustomerId");
+                }
+                
+                var query = await _dbCustomer.GetAsync(u => u.CustomerId == id,includeProperties:u=>u.CustomerItemPrices);
+                if (query == null)
+                {
+                    return NotFound("Customer does not exist");
+                }
+
+                _response.StatusCode = HttpStatusCode.OK;
+                _response.Result = _mapper.Map<CustomerExtendCIPDto>(query);
+                return Ok(_response);
+
+
+            }
+            catch (Exception e)
+            {
+                _response.StatusCode = HttpStatusCode.InternalServerError;
+                _response.IsSuccess = false;
+                _response.Errors.Add(e.ToString());
+            }
+
+            return _response;
+        }
+        
         
          
         
