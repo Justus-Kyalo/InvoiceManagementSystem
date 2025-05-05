@@ -22,6 +22,7 @@ public class CustomerItemPrice
     public decimal Price { get; set; }
     
     public Item? Item { get; set; }
+    [Newtonsoft.Json.JsonIgnore]
     public Customer? Customer { get; set; }
     
     
