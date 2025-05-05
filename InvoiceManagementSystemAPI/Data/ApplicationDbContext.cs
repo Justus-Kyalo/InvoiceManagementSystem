@@ -22,20 +22,26 @@ namespace InvoiceManagementSystemAPI.Data
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Slip->SlipItem ,Has one to many
+            // Slip->SlipItem ,Has one to many
             modelBuilder.Entity<Slip>()
                 .HasMany(s => s.SlipItems)
                 .WithOne(si => si.Slip)
                 .HasForeignKey(si => si.SlipId)
                 .OnDelete(DeleteBehavior.Cascade);
+            // Customer->CustomerItemPrice ,Has one to many
+            modelBuilder.Entity<Customer>()
+                .HasMany(c => c.CustomerItemPrices)
+                .WithOne(cip => cip.Customer)
+                .HasForeignKey(cip => cip.CustomerId)
+                .OnDelete(DeleteBehavior.Cascade);
             
-            //Item->SlipItem ,Has one to many
+            // Item->SlipItem ,Has one to many
             modelBuilder.Entity<Item>()
                 .HasMany(s => s.SlipItems)
                 .WithOne(si => si.Item)
                 .HasForeignKey(si => si.ItemId);
             
-            //unique constraint
+            // unique constraint
             modelBuilder.Entity<Item>()
                 .HasIndex(i => i.ItemName)
                 .IsUnique();
