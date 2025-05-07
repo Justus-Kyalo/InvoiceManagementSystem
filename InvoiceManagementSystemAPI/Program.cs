@@ -25,6 +25,8 @@ builder.Services.AddScoped<IIIFBackupRepository, IIFBackupRepository>();
 builder.Services.AddScoped<IIIFGeneratorService, IIFGeneratorService>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<ICustomerItemPriceRepository, CustomerItemPriceRepository>();
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
