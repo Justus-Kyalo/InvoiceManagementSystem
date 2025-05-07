@@ -189,6 +189,11 @@ namespace InvoiceManagementSystemAPI.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(200)]
+
+
         
         public async Task<ActionResult<APIResponse>> DeleteSlipAsync(int id)
         {
@@ -204,7 +209,7 @@ namespace InvoiceManagementSystemAPI.Controllers
 
                 if (slip == null)
                 {
-                    _response.StatusCode = HttpStatusCode.NoContent;
+                    _response.StatusCode = HttpStatusCode.NotFound;
                     return NoContent();
                 }
 
@@ -218,7 +223,7 @@ namespace InvoiceManagementSystemAPI.Controllers
             }
             catch (Exception e)
             {
-                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.StatusCode = HttpStatusCode.InternalServerError;
                 _response.IsSuccess = false;
                 _response.Errors.Add(e.ToString());
                 
