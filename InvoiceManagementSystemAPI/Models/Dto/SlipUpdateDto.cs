@@ -10,8 +10,6 @@ public class SlipUpdateDto
     [Required]
     public int CustomerId { get; set; }
     [Required]
-    public List<SlipItem> SlipItems {  get; set; }
-    [Required]
     public  DateTime  SlipDate { get; set; }
     [Required]
     public int VehicleId { get; set; }
@@ -19,5 +17,7 @@ public class SlipUpdateDto
     public string SlipNumber { get; set; }
     [Required]
     public string Status { get; set; }
+    [Required]
+    public List<SlipItemUpdateDto> SlipItems {  get; set; }
              
 }
