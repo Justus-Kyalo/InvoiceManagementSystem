@@ -7,8 +7,6 @@ public class SlipCreateDto
     [Required]
     public int CustomerId { get; set; }
     [Required]
-    public List<SlipItem> SlipItems {  get; set; }
-    [Required]
     public  DateTime  SlipDate { get; set; }
     [Required]
     public int VehicleId { get; set; }
@@ -17,6 +15,5 @@ public class SlipCreateDto
     [Required]
     public string Status { get; set; }
     [Required]
-    public DateTime CreatedDate { get; set; }
-
+    public List<SlipItemCreateDto> SlipItems {  get; set; }
 }
