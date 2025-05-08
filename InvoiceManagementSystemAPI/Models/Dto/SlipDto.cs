@@ -10,8 +10,6 @@ public class SlipDto
     [MaxLength(30)]
     public int CustomerId { get; set; }
     [Required]
-    public List<SlipItem> SlipItems {  get; set; }
-    [Required]
     public  DateTime  SlipDate { get; set; }
     [Required]
     public int VehicleId { get; set; }
@@ -19,4 +17,6 @@ public class SlipDto
     public string SlipNumber { get; set; }
     [Required]
     public string Status { get; set; }
+    [Required]
+    public List<SlipItemTrimDto> SlipItems {  get; set; }
 }
