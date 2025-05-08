@@ -11,8 +11,6 @@ namespace InvoiceManagementSystemAPI.Models
         [ForeignKey("Customer")]
         public int CustomerId { get; set; }
         [Required]
-        public ICollection<SlipItem> SlipItems {  get; set; }
-        [Required]
         public  DateTime  SlipDate { get; set; }
         [Required]
         [ForeignKey("Vehicle")]
@@ -25,10 +23,10 @@ namespace InvoiceManagementSystemAPI.Models
         public DateTime CreatedDate { get; set; }
         [Required]
         public DateTime UpdatedDate { get; set; }
+        [Required]
+        public ICollection<SlipItem> SlipItems {  get; set; }
         
-        [Required]
         public Customer?  Customer { get; set; }
-        [Required]
         public Vehicle?  Vehicle { get; set; }
 
 
