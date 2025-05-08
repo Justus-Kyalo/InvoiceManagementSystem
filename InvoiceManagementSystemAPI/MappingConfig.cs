@@ -34,6 +34,10 @@ public class MappingConfig:Profile
         CreateMap<CustomerItemPrice, CustomerItemPriceUpdateDto>().ReverseMap();
         CreateMap<CustomerItemPrice, CustomerItemPriceTrimDto>();
         CreateMap<CustomerItemPriceTrimDto, CustomerItemPrice>();
+        CreateMap<SlipItem, SlipItemCreateDto>().ReverseMap();
+        CreateMap<SlipItem, SlipItemUpdateDto>().ReverseMap();
+        CreateMap<SlipItem, SlipItemTrimDto>();
+        CreateMap<SlipItemTrimDto, SlipItem>();
     }
     
 }
