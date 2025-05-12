@@ -171,7 +171,7 @@ namespace InvoiceManagementSystemAPI.Controllers
                 return BadRequest();
             }
 
-            var slip = await _dbSlip.GetAsync(u => u.SlipId == id, tracked: false);
+            var slip = await _dbSlip.GetAsync(u => u.SlipId == id, tracked: false,includeProperties:u=>u.SlipItems);
 
             SlipUpdateDto slipDto = _mapper.Map<SlipUpdateDto>(slip);
             patchDto.ApplyTo(slipDto, ModelState);
