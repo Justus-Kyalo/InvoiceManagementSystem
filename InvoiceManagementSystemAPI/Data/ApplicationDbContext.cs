@@ -20,6 +20,8 @@ namespace InvoiceManagementSystemAPI.Data
         
         public DbSet<Vehicle> Vehicles { get; set; }
         
+        public DbSet<Invoice> Invoices { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Slip->SlipItem ,Has one to many
