@@ -23,7 +23,7 @@ public class InvoicesController:ControllerBase
     }
     
     [HttpPost]
-    [ProducesResponseType(200)]
+    [ProducesResponseType(201)]
     [ProducesResponseType(500)]
     [ProducesResponseType(400)]
 
@@ -50,7 +50,7 @@ public class InvoicesController:ControllerBase
             await _dbInvoices.CreateAsync(invoice);
             await _dbInvoices.SaveAsync();
 
-            _response.StatusCode = HttpStatusCode.OK;
+            _response.StatusCode = HttpStatusCode.Created;
             _response.Result = invoice;
 
             return CreatedAtRoute("GetItem", new { id = invoice.InvoiceId }, _response);
