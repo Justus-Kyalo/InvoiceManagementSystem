@@ -38,6 +38,9 @@ public class MappingConfig:Profile
         CreateMap<SlipItem, SlipItemUpdateDto>().ReverseMap();
         CreateMap<SlipItem, SlipItemTrimDto>();
         CreateMap<SlipItemTrimDto, SlipItem>();
+        CreateMap<Invoice, InvoiceDto>();
+        CreateMap<InvoiceDto, Invoice>();
+        CreateMap<Invoice, InvoiceCreateDto>().ReverseMap();
     }
     
 }
