@@ -26,6 +26,7 @@ builder.Services.AddScoped<IIIFGeneratorService, IIFGeneratorService>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<ICustomerItemPriceRepository, CustomerItemPriceRepository>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 
 
 
