@@ -15,13 +15,41 @@ namespace InvoiceManagementSystemAPI.Controllers
         private readonly ISlipRepository _dbSlip;
         private readonly IMapper _mapper;
         private  APIResponse _response;
+        private readonly ISlipDetailRepository _dbslipDetailRepository;
         
 
-        public SlipsController(ISlipRepository dbSlip,IMapper mapper)
+        public SlipsController(ISlipRepository dbSlip,IMapper mapper,ISlipDetailRepository slipDetailRepository)
         {
             _dbSlip = dbSlip;
             _mapper = mapper;
+            _dbslipDetailRepository = slipDetailRepository;
             _response = new();
+        }
+        [HttpPost("/SlipsCollection")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<APIResponse>> GetCustomerSlipsAsync([FromBody] SlipDetailDto slipDetailDto)
+        {
+            try
+            {
+                var sli = slipDetailDto;
+                IEnumerable<SlipDetail> detailedSlips = await _dbslipDetailRepository.GetAllAsync(u =>
+                    u.CustomerId == slipDetailDto.CustomerId &&
+                    u.SlipDate >= slipDetailDto.StartDate &&
+                    u.SlipDate <= slipDetailDto.EndDate
+                );
+                _response.Result = detailedSlips;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch(Exception e)
+            {
+                _response.StatusCode = HttpStatusCode.InternalServerError;
+                _response.Errors.Add(e.ToString());
+                _response.IsSuccess = false;
+
+            }
+
+            return _response;
         }
 
         [HttpGet]
@@ -94,7 +122,7 @@ namespace InvoiceManagementSystemAPI.Controllers
             {
                 
                 if (await _dbSlip.GetAsync(u =>
-                        u.SlipNumber.ToLower() == createDto.SlipNumber.ToLower()) != null)
+                        u.SlipNumber == createDto.SlipNumber) != null)
 
                 {
                     ModelState.AddModelError("customError", "slip with this collection slip Number already exists");
