@@ -19,8 +19,10 @@ namespace InvoiceManagementSystemAPI.Data
         public DbSet<IIFBackup> IIFBackups { get; set; }
         
         public DbSet<Vehicle> Vehicles { get; set; }
-        
+
         public DbSet<Invoice> Invoices { get; set; }
+        
+        public DbSet<SlipDetail> SlipDetails { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -51,8 +53,11 @@ namespace InvoiceManagementSystemAPI.Data
             modelBuilder.Entity<Slip>()
                 .HasIndex(i => i.SlipNumber)
                 .IsUnique();
-        
-        
+            modelBuilder.Entity<SlipDetail>()
+                .ToView("vw_SlipDetails")
+                .HasKey(vw => vw.SlipId);
+
+
         }
 
         
