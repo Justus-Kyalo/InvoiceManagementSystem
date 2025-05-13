@@ -14,7 +14,7 @@ public class SlipDto
     [Required]
     public int VehicleId { get; set; }
     [Required]
-    public string SlipNumber { get; set; }
+    public int SlipNumber { get; set; }
     [Required]
     public string Status { get; set; }
     [Required]
