@@ -23,7 +23,7 @@ public class IIFGeneratorService:IIIFGeneratorService
                 $"INVOICE\t" +                        
                 $"{slip.SlipDate:MM/dd/yyyy}\t" +      
                 $"ACCOUNTS RECEIVABLE\t" +            
-                $"{slip.CustomerAccountNumber}\t" + 
+                //$"{slip.CustomerAccountNumber}\t" + 
                 // $"{slip.Total}\t" +                
                 $"{slip.SlipNumber}\t"// + 
                 // $"{slip.Description}"              
@@ -36,7 +36,7 @@ public class IIFGeneratorService:IIIFGeneratorService
                 $"INVOICE\t" +                        
                 $"{slip.SlipDate:MM/dd/yyyy}\t" +      
                 $"SALES\t" +                          
-                $"{slip.CustomerAccountNumber}\t" + 
+                //$"{slip.CustomerAccountNumber}\t" + 
                 // $"{slip.Total}\t" +                
                 $"{slip.SlipNumber}\t" //+ 
                 // $"{slip.Description}"              
