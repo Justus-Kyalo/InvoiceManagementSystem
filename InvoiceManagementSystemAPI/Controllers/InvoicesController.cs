@@ -12,12 +12,14 @@ public class InvoicesController:ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IInvoiceRepository _dbInvoices;
+    private readonly ICustomerRepository _dbCustomer;
     internal APIResponse _response;
 
-    public InvoicesController(IMapper mapper, IInvoiceRepository dbInvoices)
+    public InvoicesController(IMapper mapper, IInvoiceRepository dbInvoices,ICustomerRepository dbCustomer)
     {
         _mapper = mapper;
         _dbInvoices = dbInvoices;
+        _dbCustomer = dbCustomer;
         _response = new APIResponse();
 
     }
@@ -73,9 +75,18 @@ public class InvoicesController:ControllerBase
     {
         try
         {
-            IEnumerable <Invoice> invoices =  await _dbInvoices.GetAllAsync();
+            IEnumerable <Invoice> invoices =  await _dbInvoices.GetAllAsync(tracked:false);
+            List<InvoiceDto> invoiceDtos = new List<InvoiceDto>();
+            InvoiceDto invoiceDto = new InvoiceDto();
+            foreach (Invoice invoice in invoices)
+            {
+                invoiceDto = _mapper.Map<InvoiceDto>(invoice);
+                var customer = await _dbCustomer.GetAsync(u => u.CustomerId == invoice.CustomerId);
+                invoiceDto.CustomerName = customer.Name;
+                invoiceDtos.Add(invoiceDto);
+            }
             _response.StatusCode = HttpStatusCode.OK;
-            _response.Result = _mapper.Map<List<InvoiceDto>>(invoices);
+            _response.Result = invoiceDtos;
             return Ok(_response);
 
 
