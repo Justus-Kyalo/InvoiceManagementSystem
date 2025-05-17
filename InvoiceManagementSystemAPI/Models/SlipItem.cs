@@ -16,15 +16,18 @@ public class SlipItem
     [Required]
     [ForeignKey("Item")]
     public int ItemId { get; set; }
-    
+    [Required]
+    public int Quantity { get; set; }
+    public string ?  Description  { get; set; }
+    [Required]
+    public DateTime CreatedDate { get; set; }
+    [Required]
+    public DateTime UpdatedDate { get; set; }
     // Navigation Properties
     [Newtonsoft.Json.JsonIgnore]
     public Slip? Slip { get; set; }
     public Item? Item { get; set; }
     
-    [Required]
-    public int Quantity { get; set; }
-    public string ?  Description  { get; set; }
     
     
 }

@@ -18,5 +18,9 @@ public class Invoice
     public DateTime StartDate { get; set; }
     [Required]
     public DateTime EndDate { get; set; }
+    [Required]
+    public DateTime CreatedDate { get; set; }
+    [Required]
+    public DateTime UpdatedDate { get; set; }
     public Customer?  Customer { get; set; }
 }

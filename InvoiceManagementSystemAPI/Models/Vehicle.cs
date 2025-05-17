@@ -10,4 +10,9 @@ public class Vehicle
     [Required]
     public string VehicleRegistration { get; set; }
     public string? Description { get; set; }
+    [Required]
+    public DateTime CreatedDate { get; set; }
+    [Required]
+    public DateTime UpdatedDate { get; set; }
+
 }

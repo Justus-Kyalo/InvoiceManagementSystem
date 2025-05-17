@@ -20,6 +20,10 @@ public class CustomerItemPrice
     [Required]
     [Precision(18, 2)]
     public decimal Price { get; set; }
+    [Required]
+    public DateTime CreatedDate { get; set; }
+    [Required]
+    public DateTime UpdatedDate { get; set; }
     
     public Item? Item { get; set; }
     [Newtonsoft.Json.JsonIgnore]
