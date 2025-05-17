@@ -14,21 +14,21 @@ public class Repository<T>:IRepository<T> where T:class
         _db = db;
         dbSet = _db.Set<T>();
     }
-    public async Task<List<T>> GetAllAsync()
-    {
-        
-        return await dbSet.ToListAsync();
-    }
+   
 
-    public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, params Expression<Func<T,object>> [] includeProperties)
+    public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null,bool tracked=true, params Expression<Func<T,object>> [] includeProperties)
     {
         IQueryable<T> query = dbSet;
+        if (!tracked)
+        {
+            query = query.AsNoTracking();
+        }
+        
         if (filter != null)
         {
             query = query.Where(filter);
             
         }
-
        
         foreach (var includeProp in includeProperties)
         {
