@@ -31,7 +31,6 @@ namespace InvoiceManagementSystemAPI.Controllers
         {
             try
             {
-                var sli = slipDetailDto;
                 IEnumerable<SlipDetail> detailedSlips = await _dbslipDetailRepository.GetAllAsync(u =>
                     u.CustomerId == slipDetailDto.CustomerId &&
                     u.SlipDate >= slipDetailDto.StartDate &&
