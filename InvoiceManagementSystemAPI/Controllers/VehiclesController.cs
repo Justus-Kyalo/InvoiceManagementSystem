@@ -145,6 +145,7 @@ namespace InvoiceManagementSystemAPI.Controllers
                 }
 
                 Vehicle vehicle = _mapper.Map<Vehicle>(updateDto);
+                vehicle.UpdatedAt=DateTime.Now;
                 await _dbVehicle.Update(vehicle);
                 _response.StatusCode = HttpStatusCode.NoContent;
                 return Ok(_response);
