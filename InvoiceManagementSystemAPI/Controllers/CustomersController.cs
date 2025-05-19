@@ -147,6 +147,7 @@ namespace InvoiceManagementSystemAPI.Controllers
                 }
 
                 var customer = _mapper.Map<Customer>(updateDto);
+                customer.UpdatedAt=DateTime.Now;
                 await _dbCustomer.UpdateAsync(customer);
                 _response.StatusCode = HttpStatusCode.NoContent;
                 return Ok(_response);
@@ -186,6 +187,7 @@ namespace InvoiceManagementSystemAPI.Controllers
                 patchDto.ApplyTo(customerUpdateDto,ModelState);
 
                 Customer model = _mapper.Map<Customer>(customerUpdateDto);
+                model.UpdatedAt = DateTime.Now;
                 await _dbCustomer.UpdateAsync(model);
                 if (!ModelState.IsValid)
                 {

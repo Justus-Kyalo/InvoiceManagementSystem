@@ -20,8 +20,8 @@ public class CustomerItemPrice
     [Required]
     [Precision(18, 2)]
     public decimal Price { get; set; }
-    [Required]
-    public DateTime CreatedAt { get; set; }
+
+    [Required] public DateTime CreatedAt { get; set; } = DateTime.Now;
     [Required]
     public DateTime UpdatedAt { get; set; }
     
