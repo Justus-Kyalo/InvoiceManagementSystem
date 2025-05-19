@@ -7,7 +7,7 @@ public class SlipDetail
     public DateTime SlipDate { get; set; }
     public int SlipNumber { get; set; }
     public string Status { get; set; }
-    public int AccountNumber { get; set; }
+    public string AccountNumber { get; set; }
     public bool Active { get; set; }
     public string Name { get; set; }
     public bool Taxable { get; set; }
