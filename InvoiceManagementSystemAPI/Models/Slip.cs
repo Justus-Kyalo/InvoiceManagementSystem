@@ -20,9 +20,9 @@ namespace InvoiceManagementSystemAPI.Models
         [Required]
         public string Status { get; set; }
         [Required]
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedAt { get; set; }
         [Required]
-        public DateTime UpdatedDate { get; set; }
+        public DateTime UpdatedAt { get; set; }
         [Required]
         public ICollection<SlipItem> SlipItems {  get; set; }
         

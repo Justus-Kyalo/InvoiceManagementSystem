@@ -16,9 +16,9 @@ public class Customer
     [Required]
     public bool Active { get; set; }
     [Required]
-    public DateTime CreatedDate { get; set; }
+    public DateTime CreatedAt { get; set; }
     [Required]
-    public DateTime UpdatedDate { get; set; }
+    public DateTime UpdatedAt { get; set; }
     [Required]
     public ICollection<CustomerItemPrice> CustomerItemPrices { get; set; }
 }

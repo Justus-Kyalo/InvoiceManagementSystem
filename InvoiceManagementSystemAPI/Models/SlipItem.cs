@@ -20,9 +20,9 @@ public class SlipItem
     public int Quantity { get; set; }
     public string ?  Description  { get; set; }
     [Required]
-    public DateTime CreatedDate { get; set; }
+    public DateTime CreatedAt { get; set; }
     [Required]
-    public DateTime UpdatedDate { get; set; }
+    public DateTime UpdatedAt { get; set; }
     // Navigation Properties
     [Newtonsoft.Json.JsonIgnore]
     public Slip? Slip { get; set; }
