@@ -158,7 +158,6 @@ namespace InvoiceManagementSystemAPI.Controllers
                 }
 
                 Slip slip = _mapper.Map<Slip>(createDto);
-                slip.CreatedAt=DateTime.Now;
                 await _dbSlip.CreateAsync(slip);
                 await _dbSlip.SaveAsync();
                 _response.Result = slip;
@@ -195,7 +194,7 @@ namespace InvoiceManagementSystemAPI.Controllers
                 }
 
                 Slip slip = _mapper.Map<Slip>(updateDto);
-                slip.UpdatedAt=DateTime.Today;
+                slip.UpdatedAt=DateTime.Now;
                 await _dbSlip.UpdateAsync(slip);
                 _response.StatusCode = HttpStatusCode.NoContent;
                 return Ok(_response);
@@ -226,6 +225,7 @@ namespace InvoiceManagementSystemAPI.Controllers
             SlipUpdateDto slipDto = _mapper.Map<SlipUpdateDto>(slip);
             patchDto.ApplyTo(slipDto, ModelState);
             Slip model = _mapper.Map<Slip>(slipDto);
+            model.UpdatedAt = DateTime.Now;
             await _dbSlip.UpdateAsync(model);
             if (!ModelState.IsValid)
             {

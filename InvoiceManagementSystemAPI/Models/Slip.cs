@@ -19,8 +19,9 @@ namespace InvoiceManagementSystemAPI.Models
         public int SlipNumber { get; set; }
         [Required]
         public string Status { get; set; }
-        [Required]
-        public DateTime CreatedAt { get; set; }
+
+        [Required] 
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         [Required]
         public DateTime UpdatedAt { get; set; }
         [Required]
