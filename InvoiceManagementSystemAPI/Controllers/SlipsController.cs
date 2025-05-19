@@ -136,7 +136,7 @@ namespace InvoiceManagementSystemAPI.Controllers
                 }
 
                 Slip slip = _mapper.Map<Slip>(createDto);
-                slip.CreatedDate=DateTime.Now;
+                slip.CreatedAt=DateTime.Now;
                 await _dbSlip.CreateAsync(slip);
                 await _dbSlip.SaveAsync();
                 _response.Result = slip;
@@ -173,6 +173,7 @@ namespace InvoiceManagementSystemAPI.Controllers
                 }
 
                 Slip slip = _mapper.Map<Slip>(updateDto);
+                slip.UpdatedAt=DateTime.Today;
                 await _dbSlip.UpdateAsync(slip);
                 _response.StatusCode = HttpStatusCode.NoContent;
                 return Ok(_response);
