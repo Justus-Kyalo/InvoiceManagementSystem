@@ -50,6 +50,28 @@ namespace InvoiceManagementSystemAPI.Controllers
 
             return _response;
         }
+        
+        [HttpGet("/SlipsCollection")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<APIResponse>> GetDetailedSlipsAsyn()
+        {
+            try
+            {
+                IEnumerable<SlipDetail> detailedSlips = await _dbslipDetailRepository.GetAllAsync();
+                _response.Result = detailedSlips;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch(Exception e)
+            {
+                _response.StatusCode = HttpStatusCode.InternalServerError;
+                _response.Errors.Add(e.ToString());
+                _response.IsSuccess = false;
+
+            }
+
+            return _response;
+        }
 
         [HttpGet]
         [ProducesResponseType(200)]
