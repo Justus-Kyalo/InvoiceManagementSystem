@@ -18,8 +18,8 @@ public class Invoice
     public DateTime StartDate { get; set; }
     [Required]
     public DateTime EndDate { get; set; }
-    [Required]
-    public DateTime CreatedAt { get; set; }
+
+    [Required] public DateTime CreatedAt { get; set; } = DateTime.Now;
     [Required]
     public DateTime UpdatedAt { get; set; }
     public Customer?  Customer { get; set; }
