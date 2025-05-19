@@ -6,7 +6,7 @@ public class CustomerUpdateDto
 {  [Required]
     public int CustomerId { get; set; }
     [Required]
-    public  int AccountNumber { get; set; }
+    public  string AccountNumber { get; set; }
     [Required]
     public string Name { get; set; }
     [Required]

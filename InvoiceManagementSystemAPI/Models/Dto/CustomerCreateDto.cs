@@ -4,7 +4,7 @@ namespace InvoiceManagementSystemAPI.Models.Dto;
 public class CustomerCreateDto
 {
     [Required]
-    public int AccountNumber { get; set; }
+    public string AccountNumber { get; set; }
     [Required]
     public string Name { get; set; }
     [Required]

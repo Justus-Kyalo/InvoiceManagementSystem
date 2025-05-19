@@ -8,15 +8,15 @@ public class Customer
     [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int CustomerId { get; set; }
     [Required]
-    public  int AccountNumber { get; set; }
+    public  string AccountNumber { get; set; }
     [Required]
     public string Name { get; set; }
     [Required]
     public  bool Taxable { get; set; }
     [Required]
     public bool Active { get; set; }
-    [Required]
-    public DateTime CreatedAt { get; set; }
+
+    [Required] public DateTime CreatedAt { get; set; } = DateTime.Now;
     [Required]
     public DateTime UpdatedAt { get; set; }
     [Required]
