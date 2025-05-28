@@ -6,42 +6,42 @@ namespace InvoiceManagementSystemAPI.Services;
 
 public class IIFGeneratorService:IIIFGeneratorService
 {
-    public string GenerateIIFContent(List<Slip> slips)
+    public string GenerateIIFContent(List<SlipDetail> slips)
     {
         var sb = new StringBuilder();
 
         // IIF Headers
-        sb.AppendLine("!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tAMOUNT\tDOCNUM\tMEMO");
-        sb.AppendLine("!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tAMOUNT\tDOCNUM\tMEMO");
+        sb.AppendLine("!TRNS\tTRNSTYPE\tDATE\tACCNT\tNAME\tAMOUNT\tDOCNUM\tMEMO");
+        sb.AppendLine("!SPL\tTRNSTYPE\tDATE\tACCNT\tNAME\tAMOUNT\tINVITEM\tQNTY\tDESCRIPTION");
+        sb.AppendLine("!ENDTRNS");
+        
+        // TRNS Line (Accounts Receivable)
+        sb.AppendLine(
+            $"TRNS\t" +
+            $"INVOICE\t" +                        
+            $"{DateTime.Today:MM/dd/yyyy}\t" +      
+            $"Accounts Receivable\t" +            
+            $"{slips.FirstOrDefault()?.AccountNumber}  {slips.FirstOrDefault()?.Name}\t" +
+            $"\t" + // blank AMOUNT
+            $"Consolidated invoice as of {DateTime.Today:MM/dd/yyyy}\t"
+        );
 
         foreach (var slip in slips)
         {
-            // TRNS Line (Accounts Receivable)
-            sb.AppendLine(
-                $"TRNS\t" +
-                $"{slip.SlipId}\t" +                   
-                $"INVOICE\t" +                        
-                $"{slip.SlipDate:MM/dd/yyyy}\t" +      
-                $"ACCOUNTS RECEIVABLE\t" +            
-                //$"{slip.CustomerAccountNumber}\t" + 
-                // $"{slip.Total}\t" +                
-                $"{slip.SlipNumber}\t"// + 
-                // $"{slip.Description}"              
-            );
-
             // SPL Line (Sales Account)
             sb.AppendLine(
                 $"SPL\t" +
-                $"{slip.SlipId}\t" +                   
                 $"INVOICE\t" +                        
                 $"{slip.SlipDate:MM/dd/yyyy}\t" +      
-                $"SALES\t" +                          
-                //$"{slip.CustomerAccountNumber}\t" + 
-                // $"{slip.Total}\t" +                
-                $"{slip.SlipNumber}\t" //+ 
-                // $"{slip.Description}"              
+                $"Sales Income\t" +                          
+                $"{slip.Name}\t" + 
+                $"-{slip.Price}\t" +                
+                $"{slip.ItemName}\t" + 
+                $"{slip.Quantity}\t"  +
+                $"Slip#{slip.SlipNumber}"
             );
         }
+        sb.AppendLine("!ENDTRNS");
 
         return sb.ToString();
     }

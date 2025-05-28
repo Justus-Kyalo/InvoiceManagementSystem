@@ -4,5 +4,5 @@ namespace InvoiceManagementSystemAPI.Services.IServices;
 
 public interface IIIFGeneratorService
 {
-    string GenerateIIFContent(List<Slip> invoices);
+    string GenerateIIFContent(List<SlipDetail> slips);
 }
