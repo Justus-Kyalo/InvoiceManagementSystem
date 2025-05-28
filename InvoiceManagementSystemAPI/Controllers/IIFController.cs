@@ -15,14 +15,14 @@ namespace InvoiceManagementSystemAPI.Controllers
     public class IIFController : ControllerBase
     {
         private readonly IIIFBackupRepository _dbIIFBackup;
-        private readonly ISlipRepository _dbSlip;
+        private readonly ISlipDetailRepository _dbSlipDetail;
         private readonly IIIFGeneratorService _iifService;
         private readonly IMapper _mapper;
         internal APIResponse _response;
-        public IIFController(IIIFBackupRepository dbIIFBackup, ISlipRepository dbSlip,IIIFGeneratorService iifService,IMapper mapper)
+        public IIFController(IIIFBackupRepository dbIIFBackup, ISlipDetailRepository dbSlipDetail,IIIFGeneratorService iifService,IMapper mapper)
         {
             _dbIIFBackup = dbIIFBackup;
-            _dbSlip = dbSlip;
+            _dbSlipDetail = dbSlipDetail;
             _iifService = iifService;
             _mapper = mapper;
             _response = new();
@@ -118,8 +118,8 @@ namespace InvoiceManagementSystemAPI.Controllers
 
                 }
               
-                List<Slip> slips =  await _dbSlip.GetAllAsync(u =>
-                    u.SlipDate >= createDto.StartDate && u.SlipDate <= createDto.EndDate);
+                List<SlipDetail> slips =  await _dbSlipDetail.GetAllAsync(u =>
+                    (u.SlipDate >= createDto.StartDate && u.SlipDate <= createDto.EndDate) && u.CustomerId==createDto.CustomerId);
                 
            
                 string iifContent = _iifService.GenerateIIFContent(slips);
