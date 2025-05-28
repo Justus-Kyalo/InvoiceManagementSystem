@@ -83,6 +83,7 @@ public class InvoicesController:ControllerBase
                 invoiceDto = _mapper.Map<InvoiceDto>(invoice);
                 var customer = await _dbCustomer.GetAsync(u => u.CustomerId == invoice.CustomerId);
                 invoiceDto.CustomerName = customer.Name;
+                invoiceDto.CustomerId = customer.CustomerId;
                 invoiceDtos.Add(invoiceDto);
             }
             _response.StatusCode = HttpStatusCode.OK;

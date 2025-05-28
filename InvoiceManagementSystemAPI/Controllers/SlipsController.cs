@@ -159,7 +159,7 @@ namespace InvoiceManagementSystemAPI.Controllers
 
                 Slip slip = _mapper.Map<Slip>(createDto);
                 await _dbSlip.CreateAsync(slip);
-                await _dbSlip.SaveAsync();
+                // await _dbSlip.SaveAsync();
                 _response.Result = slip;
                 _response.StatusCode = HttpStatusCode.Created;
                 return CreatedAtRoute("GetSlipAsync",new

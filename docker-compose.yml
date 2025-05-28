@@ -43,7 +43,7 @@ services:
       context: ./InvoiceManagementSystemAPI
       dockerfile: Dockerfile
     ports:
-      - "5000:8080"
+      - "8080:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=db;Database=${DATABASE};User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;
@@ -51,6 +51,11 @@ services:
       - db-init  # Wait for database initialization
     networks:
       - app-network
+    develop:
+          watch:
+            - action: sync
+              path: .
+              target: /InvoiceManagementSystemAPI
     restart: unless-stopped
 
 volumes:
