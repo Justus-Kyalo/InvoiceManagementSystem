@@ -117,26 +117,29 @@ namespace InvoiceManagementSystemAPI.Controllers
                     );
 
                 }
-              
-                List<SlipDetail> slips =  await _dbSlipDetail.GetAllAsync(u =>
-                    (u.SlipDate >= createDto.StartDate && u.SlipDate <= createDto.EndDate) && u.CustomerId==createDto.CustomerId);
+
+                foreach (var customerId in createDto.Customers)
+                {
+                    List<SlipDetail> slips =  await _dbSlipDetail.GetAllAsync(u =>
+                        (u.SlipDate >= createDto.StartDate && u.SlipDate <= createDto.EndDate) && u.CustomerId==customerId && u.Status!="billed");
                 
            
-                string iifContent = _iifService.GenerateIIFContent(slips);
+                    string iifContent = _iifService.GenerateIIFContent(slips);
 
-                var backup = new IIFBackup
-                {
-                    FileName = $"Invoice_{createDto.StartDate:yyyyMMdd}_to_{createDto.EndDate:yyyyMMdd}.iif",
-                    FileContent = iifContent,
-                    StartDate = createDto.StartDate,
-                    EndDate = createDto.EndDate,
-                    GeneratedOn = DateTime.UtcNow
-                };
-                await _dbIIFBackup.CreateAsync(backup);
-                await _dbIIFBackup.SaveAsync();
+                    var backup = new IIFBackup
+                    {
+                        FileName = $"Invoice_{createDto.StartDate:yyyyMMdd}_to_{createDto.EndDate:yyyyMMdd}.iif",
+                        FileContent = iifContent,
+                        StartDate = createDto.StartDate,
+                        EndDate = createDto.EndDate,
+                        GeneratedOn = DateTime.UtcNow
+                    };
+                    await _dbIIFBackup.CreateAsync(backup);
+                    await _dbIIFBackup.SaveAsync();
+                    return File(Encoding.UTF8.GetBytes(iifContent), "text/iif", backup.FileName);
+                }
 
-                return File(Encoding.UTF8.GetBytes(iifContent), "text/iif", backup.FileName);
-
+                return Ok();
             }
             catch (Exception e)
             { 
