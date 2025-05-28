@@ -10,11 +10,22 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).ConfigureWarnings(warnings => 
         warnings.Ignore(RelationalEventId.PendingModelChangesWarning)
     );
+});
+
+// Add CORS configuration
+var MyCorsPolicy = "AllowLocalhost5173";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(MyCorsPolicy, policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
 });
 
 builder.Services.AddControllers(option=>{}).AddNewtonsoftJson();
@@ -43,6 +54,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Enable CORS with the policy
+app.UseCors(MyCorsPolicy);
 
 app.UseHttpsRedirection();
 
