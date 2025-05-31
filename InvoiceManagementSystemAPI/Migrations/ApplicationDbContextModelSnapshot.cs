@@ -198,10 +198,10 @@ namespace InvoiceManagementSystemAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VehicleId")
+                    b.Property<int?>("VehicleId")
                         .HasColumnType("int");
 
                     b.HasKey("SlipId");
@@ -221,8 +221,9 @@ namespace InvoiceManagementSystemAPI.Migrations
                     b.Property<int>("SlipId")
                         .HasColumnType("int");
 
-                    b.Property<int>("AccountNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("AccountNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -231,6 +232,9 @@ namespace InvoiceManagementSystemAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemId")
                         .HasColumnType("int");
 
                     b.Property<string>("ItemName")
@@ -263,6 +267,9 @@ namespace InvoiceManagementSystemAPI.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("VehicleId")
+                        .HasColumnType("int");
+
                     b.Property<string>("VehicleRegistration")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -282,9 +289,6 @@ namespace InvoiceManagementSystemAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SlipItemId"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -296,9 +300,6 @@ namespace InvoiceManagementSystemAPI.Migrations
 
                     b.Property<int>("SlipId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("SlipItemId");
 
@@ -375,9 +376,7 @@ namespace InvoiceManagementSystemAPI.Migrations
 
                     b.HasOne("InvoiceManagementSystemAPI.Models.Vehicle", "Vehicle")
                         .WithMany()
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("VehicleId");
 
                     b.Navigation("Customer");
 
