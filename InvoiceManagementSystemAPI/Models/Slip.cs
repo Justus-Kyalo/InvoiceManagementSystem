@@ -12,9 +12,9 @@ namespace InvoiceManagementSystemAPI.Models
         public int CustomerId { get; set; }
         [Required]
         public  DateTime  SlipDate { get; set; }
-        [Required]
+        
         [ForeignKey("Vehicle")]
-        public int VehicleId { get; set; }
+        public int ? VehicleId { get; set; }
         [Required]
         public int SlipNumber { get; set; }
         [Required]
@@ -22,14 +22,13 @@ namespace InvoiceManagementSystemAPI.Models
 
         [Required] 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        [Required]
-        public DateTime UpdatedAt { get; set; }
+       
+        public DateTime? UpdatedAt  { get; set; } = DateTime.MinValue;
         [Required]
         public ICollection<SlipItem> SlipItems {  get; set; }
         
         public Customer?  Customer { get; set; }
         public Vehicle?  Vehicle { get; set; }
-
 
     }
 }
