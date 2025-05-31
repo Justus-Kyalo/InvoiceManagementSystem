@@ -9,50 +9,39 @@ public class IIFGeneratorService:IIIFGeneratorService
     public string GenerateIIFContent(List<SlipDetail> slips)
     {
         var sb = new StringBuilder();
+        sb.AppendLine(
+            $"AccountNumber\t" +
+            $"Name\t" +
+            $"Taxable\t" +
+            $"SlipNumber\t" +
+            $"Item\t" +
+            $"Quantity\t" +
+            $"Price\t" +
+            $"SlipDate"
+        );
 
-        // IIF Headers
-        sb.AppendLine("!TRNS\tTRNSTYPE\tDATE\tACCNT\tNAME\tAMOUNT\tDOCNUM\tMEMO");
-        sb.AppendLine("!SPL\tTRNSTYPE\tDATE\tACCNT\tNAME\tAMOUNT\tINVITEM\tQNTY\tDESCRIPTION");
-        sb.AppendLine("!ENDTRNS");
+        var GroupByCustomer = slips.GroupBy(s => s.AccountNumber).ToList();
 
-        // Group by AccountNumber
-        var groupedByCustomer = slips
-            .GroupBy(s => s.AccountNumber)
-            .ToList();
-
-        foreach (var group in groupedByCustomer)
+        foreach (var group in GroupByCustomer)
         {
-            var firstSlip = group.First();
-
-            // TRNS Line (only once per AccountNumber)
-            sb.AppendLine(
-                $"TRNS\t" +
-                $"INVOICE\t" +
-                $"{DateTime.Today:MM/dd/yyyy}\t" +
-                $"Accounts Receivable\t" +
-                $"{firstSlip.AccountNumber}  {firstSlip.Name}\t" +
-                $"\t" + 
-                $"\t" + 
-                $"Consolidated invoice as of {DateTime.Today:MM/dd/yyyy}"
-            );
-
+            
             foreach (var slip in group)
             {
                 sb.AppendLine(
-                    $"SPL\t" +
-                    $"INVOICE\t" +
-                    $"{slip.SlipDate:MM/dd/yyyy}\t" +
-                    $"Sales Income\t" +
+                    $"{slip.AccountNumber}\t" +
                     $"{slip.Name}\t" +
-                    $"-{slip.Price}\t" +
+                    $"{(slip.Taxable ? "Y" : "N")}\t" +
+                    $"{slip.SlipNumber}\t" +
                     $"{slip.ItemName}\t" +
                     $"{slip.Quantity}\t" +
-                    $"Slip#{slip.SlipNumber}"
+                    $"{slip.Price}\t" +
+                    $"{slip.SlipDate:MM/dd/yyyy}" 
                 );
-            }
 
-            sb.AppendLine("ENDTRNS\n");
+            }
         }
+
+        sb.AppendLine("\n");
 
         return sb.ToString();
     }
