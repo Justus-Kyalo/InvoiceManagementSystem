@@ -53,7 +53,7 @@ namespace InvoiceManagementSystemAPI.Controllers
         
         [HttpGet("/SlipsCollection")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<APIResponse>> GetDetailedSlipsAsyn()
+        public async Task<ActionResult<APIResponse>> GetDetailedSlipsAsync()
         {
             try
             {

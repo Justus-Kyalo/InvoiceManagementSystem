@@ -95,12 +95,13 @@ namespace InvoiceManagementSystemAPI.Controllers
         [HttpPost("export")]
         [ProducesResponseType(500)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(200)]
         public async Task<ActionResult> CreateIIFBackup([FromBody] IIFBackupCreateDto createDto)
         {
             try
             {
-                
-                if (createDto.StartDate == null  || createDto.EndDate==null)
+
+                if (createDto.StartDate == null || createDto.EndDate == null)
                 {
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest("Invalid IIFBackup entry");
@@ -118,38 +119,30 @@ namespace InvoiceManagementSystemAPI.Controllers
 
                 }
 
+                List<SlipDetail> DetailedSlips = new List<SlipDetail>();
                 foreach (var customerId in createDto.Customers)
                 {
-                    List<SlipDetail> slips =  await _dbSlipDetail.GetAllAsync(u =>
-                        (u.SlipDate >= createDto.StartDate && u.SlipDate <= createDto.EndDate) && u.CustomerId==customerId && u.Status!="billed");
-                
-           
-                    string iifContent = _iifService.GenerateIIFContent(slips);
+                    var slips = await _dbSlipDetail.GetAllAsync(u =>
+                        (u.SlipDate >= createDto.StartDate && u.SlipDate <= createDto.EndDate) &&
+                        u.CustomerId == customerId && u.Status != "billed");
+                    DetailedSlips.AddRange(slips);
 
-                    var backup = new IIFBackup
-                    {
-                        FileName = $"Invoice_{createDto.StartDate:yyyyMMdd}_to_{createDto.EndDate:yyyyMMdd}.iif",
-                        FileContent = iifContent,
-                        StartDate = createDto.StartDate,
-                        EndDate = createDto.EndDate,
-                        GeneratedOn = DateTime.UtcNow
-                    };
-                    await _dbIIFBackup.CreateAsync(backup);
-                    await _dbIIFBackup.SaveAsync();
-                    return File(Encoding.UTF8.GetBytes(iifContent), "text/iif", backup.FileName);
                 }
-
-                return Ok();
+                
+                    string iifContent = _iifService.GenerateIIFContent(DetailedSlips);
+                    string FileName = $"Invoice_{createDto.StartDate:yyyyMMdd}_to_{createDto.EndDate:yyyyMMdd}.csv";
+                    return File(Encoding.UTF8.GetBytes(iifContent), "text/csv", FileName);
+                
             }
             catch (Exception e)
-            { 
+            {
                 return StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
                 {
                     Title = "Server Error",
-                    Detail = "An error occurred while generating the IIF file"
+                    Detail = "An error occurred while generating the CSV file"
                 });
             }
-            
+
         }
         
     }
