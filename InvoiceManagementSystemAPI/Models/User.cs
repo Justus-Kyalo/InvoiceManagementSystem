@@ -12,7 +12,7 @@ public class User
     [StringLength(50)]
     public string Name { get; set; }
     [Required]
-    [StringLength(20)]
+    [StringLength(250)]
     public string Password { get; set; }
     [Required]
     [StringLength(20)]
