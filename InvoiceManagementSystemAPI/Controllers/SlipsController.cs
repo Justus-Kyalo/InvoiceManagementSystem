@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using InvoiceManagementSystemAPI.Models;
 using InvoiceManagementSystemAPI.Models.Dto;
 using InvoiceManagementSystemAPI.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InvoiceManagementSystemAPI.Controllers
@@ -73,6 +74,7 @@ namespace InvoiceManagementSystemAPI.Controllers
             return _response;
         }
 
+        [Authorize(Roles ="admin,clerk" )]
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult<APIResponse>> GetSlipsAsync()
