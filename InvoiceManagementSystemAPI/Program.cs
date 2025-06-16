@@ -47,6 +47,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Authentication set up
 var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
+//var key = builder.Configuration.GetValue<string>("JWT_SECRET_KEY");
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
