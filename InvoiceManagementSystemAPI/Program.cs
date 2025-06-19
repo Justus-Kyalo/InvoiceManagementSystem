@@ -46,7 +46,7 @@ builder.Services.AddScoped<ISlipDetailRepository, SlipDetailRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Authentication set up
-var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
+var securityKey = builder.Configuration.GetValue<string>("ApiSettings:Secret");
 //var key = builder.Configuration.GetValue<string>("JWT_SECRET_KEY");
 builder.Services.AddAuthentication(x =>
 {
@@ -59,7 +59,7 @@ builder.Services.AddAuthentication(x =>
     x.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(securityKey)),
         ValidateIssuer = false,
         ValidateAudience = false
     };
