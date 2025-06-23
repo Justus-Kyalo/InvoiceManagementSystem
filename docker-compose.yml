@@ -46,6 +46,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=db;Database=${DATABASE};User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;
+      - ApiSettings__Secret=${JWT_SECRET_KEY}
     depends_on:
       - db-init  # Wait for database initialization
     networks:
