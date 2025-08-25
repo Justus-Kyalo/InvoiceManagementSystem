@@ -43,7 +43,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             catch (Exception e)
             {
                 _response.StatusCode = HttpStatusCode.InternalServerError;
-                _response.IsSuccess = false;
                 _response.Errors.Add(e.ToString());
             }
 
@@ -83,7 +82,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             catch (Exception e)
             {
                 _response.StatusCode = HttpStatusCode.InternalServerError;
-                _response.IsSuccess = false;
                 _response.Errors.Add(e.ToString());
             }
 
@@ -121,7 +119,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             catch (Exception e)
             {
                 _response.StatusCode = HttpStatusCode.InternalServerError;
-                _response.IsSuccess = false;
                 _response.Errors.Add(e.ToString());
             }
 
@@ -140,7 +137,6 @@ namespace InvoiceManagementSystemAPI.Controllers
                 if (id == 0 || updateDto.VehicleId != id )
                 {
                     _response.StatusCode = HttpStatusCode.BadRequest;
-                    _response.IsSuccess = false;
                     return BadRequest("Invalid Request");
                 }
 
@@ -154,7 +150,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             catch (Exception e)
             {
                 _response.StatusCode = HttpStatusCode.InternalServerError;
-                _response.IsSuccess = false;
                 _response.Errors.Add(e.ToString());
             }
 
@@ -173,7 +168,6 @@ namespace InvoiceManagementSystemAPI.Controllers
                 if (id == 0 || patchDto == null)
                 {
                     _response.StatusCode = HttpStatusCode.BadRequest;
-                    _response.IsSuccess = false;
                     return BadRequest("Invalid Request");
                 }
 
@@ -190,7 +184,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             catch (Exception e)
             {
                 _response.StatusCode = HttpStatusCode.InternalServerError;
-                _response.IsSuccess = false;
                 _response.Errors.Add(e.ToString());
             }
 
@@ -211,7 +204,6 @@ namespace InvoiceManagementSystemAPI.Controllers
                 if (id == 0)
                 {
                     _response.StatusCode = HttpStatusCode.BadRequest;
-                    _response.IsSuccess = false;
                     return BadRequest("Invalid Request");
                 }
 
@@ -232,7 +224,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             catch (Exception e)
             {
                 _response.StatusCode = HttpStatusCode.InternalServerError;
-                _response.IsSuccess = false;
                 _response.Errors.Add(e.ToString());
             }
 

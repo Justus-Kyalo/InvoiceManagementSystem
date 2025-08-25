@@ -62,7 +62,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             catch (Exception e)
             {
 
-                _response.IsSuccess = false;
                 _response.StatusCode = HttpStatusCode.InternalServerError;
                 _response.Errors.Add(e.ToString());
             }
@@ -87,7 +86,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             catch (Exception e)
             {
                 _response.StatusCode = HttpStatusCode.InternalServerError;
-                _response.IsSuccess = false;
                 _response.Errors.Add(e.ToString());
             }
 
@@ -127,7 +125,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             {
 
                 _response.StatusCode = HttpStatusCode.InternalServerError;
-                _response.IsSuccess = false;
                 _response.Errors.Add(e.ToString());
             }
 
@@ -168,7 +165,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             catch (Exception e)
             {
                 _response.StatusCode = HttpStatusCode.InternalServerError;
-                _response.IsSuccess = false;
                 _response.Errors.Add(e.ToString());
             }
 
@@ -219,7 +215,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             catch (Exception e)
             {
                 _response.StatusCode = HttpStatusCode.InternalServerError;
-                _response.IsSuccess = false;
                 _response.Errors.Add(e.ToString());
             }
 
@@ -261,7 +256,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             catch (Exception e)
             {
                 _response.StatusCode = HttpStatusCode.InternalServerError;
-                _response.IsSuccess = false;
                 _response.Errors.Add(e.ToString());
             }
 

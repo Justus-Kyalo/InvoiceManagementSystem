@@ -61,7 +61,6 @@ public class InvoicesController:ControllerBase
         catch (Exception e)
         {
 
-            _response.IsSuccess = false;
             _response.StatusCode = HttpStatusCode.InternalServerError;
             _response.Errors.Add(e.ToString());
         }
@@ -96,7 +95,6 @@ public class InvoicesController:ControllerBase
         catch (Exception e)
         {
             _response.StatusCode = HttpStatusCode.InternalServerError;
-            _response.IsSuccess = false;
             _response.Errors.Add(e.ToString());
         }
 

@@ -44,7 +44,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             {
                 _response.StatusCode = HttpStatusCode.InternalServerError;
                 _response.Errors.Add(e.ToString());
-                _response.IsSuccess = false;
 
             }
 
@@ -82,7 +81,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;
                 _response.Errors.Add(e.ToString());
-                _response.IsSuccess = false;
             }
 
             return _response;
@@ -125,7 +123,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             catch (Exception e)
             {
                _response.Errors.Add(e.ToString());
-               _response.IsSuccess = false;
                _response.StatusCode = HttpStatusCode.InternalServerError;
             }
 
@@ -156,7 +153,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;
                 _response.Errors.Add(e.ToString());
-                _response.IsSuccess = false;
             }
 
             return _response;
@@ -204,7 +200,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;
                 _response.Errors.Add(e.ToString());
-                _response.IsSuccess = false;
             }
 
             return _response;
@@ -245,7 +240,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             catch (Exception e)
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;
-                _response.IsSuccess = false;
                 _response.Errors.Add(e.ToString());
                 
             }
@@ -283,7 +277,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             catch (Exception e)
             {
                 _response.StatusCode = HttpStatusCode.InternalServerError;
-                _response.IsSuccess = false;
                 _response.Errors.Add(e.ToString());
             }
 
