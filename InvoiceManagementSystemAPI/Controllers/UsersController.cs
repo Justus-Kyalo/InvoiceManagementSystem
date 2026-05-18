@@ -4,11 +4,13 @@ using FluentValidation.Results;
 using InvoiceManagementSystemAPI.Models;
 using InvoiceManagementSystemAPI.Models.Dto;
 using InvoiceManagementSystemAPI.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InvoiceManagementSystemAPI.Controllers;
 [Route("api/UsersAuth")]
 [ApiController]
+[AllowAnonymous]
 public class UsersController : ControllerBase
 {
     protected APIResponse _response;

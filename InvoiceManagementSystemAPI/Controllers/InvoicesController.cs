@@ -3,11 +3,13 @@ using AutoMapper;
 using InvoiceManagementSystemAPI.Models;
 using InvoiceManagementSystemAPI.Models.Dto;
 using InvoiceManagementSystemAPI.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InvoiceManagementSystemAPI.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Roles = "admin,clerk")]
 public class InvoicesController:ControllerBase
 {
     private readonly IMapper _mapper;
