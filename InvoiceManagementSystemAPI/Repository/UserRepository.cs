@@ -16,12 +16,15 @@ public class UserRepository:IUserRepository
     private readonly ApplicationDbContext _db;
     private readonly PasswordHasher<User> _passwordHasher;
     private string secretKey;
+    private string issuer;
+    private string audience;
     public UserRepository(ApplicationDbContext db,IConfiguration configuration)
     {
         _db = db;
         _passwordHasher = new PasswordHasher<User>();
         secretKey = configuration.GetValue<string>("ApiSettings:Secret");
-
+        issuer = configuration.GetValue<string>("ApiSettings:Issuer");
+        audience = configuration.GetValue<string>("ApiSettings:Audience");
     }
     public bool IsUniqueUser(string username)
     {
@@ -53,6 +56,8 @@ public class UserRepository:IUserRepository
                     new Claim(ClaimTypes.Role, user.Role)
                 }),
                 Expires = DateTime.UtcNow.AddHours(12),
+                Issuer = issuer,
+                Audience = audience,
                 SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
