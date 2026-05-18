@@ -1,10 +1,13 @@
 using System.Text;
+using FluentValidation;
 using InvoiceManagementSystemAPI;
 using InvoiceManagementSystemAPI.Data;
+using InvoiceManagementSystemAPI.Models;
 using InvoiceManagementSystemAPI.Repository;
 using InvoiceManagementSystemAPI.Repository.IRepository;
 using InvoiceManagementSystemAPI.Services;
 using InvoiceManagementSystemAPI.Services.IServices;
+using InvoiceManagementSystemAPI.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -44,6 +47,7 @@ builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<ISlipDetailRepository, SlipDetailRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddValidatorsFromAssemblyContaining<RegistrationRequestValidator>();
 
 // Authentication set up
 //var jwtSecretKey = builder.Configuration["ApiSettings:Secret"];
