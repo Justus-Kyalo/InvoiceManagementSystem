@@ -8,8 +8,7 @@ public class SlipCreateDto
     public int CustomerId { get; set; }
     [Required]
     public  DateTime  SlipDate { get; set; }
-    [Required]
-    public int VehicleId { get; set; }
+    public int? VehicleId { get; set; }
     [Required]
     public int SlipNumber { get; set; }
     [Required]
