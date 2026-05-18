@@ -11,6 +11,7 @@ namespace InvoiceManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "admin,clerk")]
     public class SlipsController : ControllerBase
     {
         private readonly ISlipRepository _dbSlip;
@@ -72,7 +73,6 @@ namespace InvoiceManagementSystemAPI.Controllers
             return _response;
         }
 
-        [Authorize(Roles ="admin,clerk" )]
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult<APIResponse>> GetSlipsAsync()
