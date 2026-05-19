@@ -50,6 +50,7 @@ public class UsersController : ControllerBase
         return Ok(_response);
     }
 
+    [AllowAnonymous]
     [HttpPost("register")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
