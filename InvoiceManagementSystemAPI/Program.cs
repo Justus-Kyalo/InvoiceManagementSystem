@@ -143,15 +143,16 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+    app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseSwagger();
-app.UseSwaggerUI(options =>
-{
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "InvoiceManagementSystemAPI_V1");
-    options.RoutePrefix = string.Empty;
-});
+// Enabled Swagger in production  
+// app.UseSwagger();
+// app.UseSwaggerUI(options =>
+// {
+//     options.SwaggerEndpoint("/swagger/v1/swagger.json", "InvoiceManagementSystemAPI_V1");
+//     options.RoutePrefix = string.Empty;
+// });
 
 // Enable CORS with the policy
 app.UseCors(MyCorsPolicy);

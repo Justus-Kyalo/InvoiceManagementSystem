@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace InvoiceManagementSystemAPI.Controllers;
 [Route("api/UsersAuth")]
 [ApiController]
-[AllowAnonymous]
 public class UsersController : ControllerBase
 {
     protected APIResponse _response;
@@ -25,7 +24,7 @@ public class UsersController : ControllerBase
         _registrationValidator = registrationValidator;
         _response = new();
     }
-
+    [AllowAnonymous]
     [HttpPost("login")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
@@ -90,19 +89,52 @@ public class UsersController : ControllerBase
         model.Role = "clerk";
 
         var user = await _userRepo.Register(model);
+        
+        _response.StatusCode = HttpStatusCode.OK;
+        _response.Result = user;
 
-        if (user == null)
+        return Ok(_response);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("admin/register")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(500)]
+
+    public async Task<ActionResult> AdminRegistration([FromBody] RegistrationRequestDTO model)
+    {
+        ValidationResult validationResult = await _registrationValidator.ValidateAsync(model);
+
+        if (!validationResult.IsValid)
         {
             _response.StatusCode = HttpStatusCode.BadRequest;
+            foreach (var error in validationResult.Errors)
+            {
+                _response.Errors.Add(error.ErrorMessage);
+                
+            }
+        }
 
-            _response.Errors.Add("Error while Registering");
+        bool isUserNameUnique = _userRepo.IsUniqueUser(model.UserName);
+        if (!isUserNameUnique)
+        {
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            
+            _response.Errors.Add("User with the username already exists.");
 
             return BadRequest(_response);
+
         }
+
+        model.Role = "admin";
+
+        var user = await  _userRepo.Register(model);
 
         _response.StatusCode = HttpStatusCode.OK;
         _response.Result = user;
 
         return Ok(_response);
+
     }
 }
