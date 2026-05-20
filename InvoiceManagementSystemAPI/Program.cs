@@ -143,7 +143,6 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwagger();
     app.UseSwaggerUI();
 }
 // Enabled Swagger in production  
