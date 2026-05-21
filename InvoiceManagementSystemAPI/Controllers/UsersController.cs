@@ -135,6 +135,33 @@ public class UsersController : ControllerBase
         _response.Result = user;
 
         return Ok(_response);
+    }
 
+    [AllowAnonymous]
+    [HttpPost("refresh")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    public async Task<IActionResult> Refresh([FromBody] RefreshRequestDTO model)
+    {
+        if (model == null
+            || string.IsNullOrEmpty(model.AccessToken)
+            || string.IsNullOrEmpty(model.RefreshToken))
+        {
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.Errors.Add("Access token and refresh token are required.");
+            return BadRequest(_response);
+        }
+
+        var result = await _userRepo.RefreshAsync(model);
+        if (string.IsNullOrEmpty(result.Token))
+        {
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.Errors.Add("Invalid or expired refresh token.");
+            return BadRequest(_response);
+        }
+
+        _response.StatusCode = HttpStatusCode.OK;
+        _response.Result = result;
+        return Ok(_response);
     }
 }
