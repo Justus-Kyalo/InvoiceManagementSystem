@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using InvoiceManagementSystemAPI.Data;
 using InvoiceManagementSystemAPI.Models;
@@ -46,27 +47,19 @@ public class UserRepository:IUserRepository
             var result = _passwordHasher.VerifyHashedPassword(user, user.Password, loginRequestDto.Password);
             if (result == PasswordVerificationResult.Failed) return FailedLogin();
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(secretKey);
-            var tokenDescriptor = new SecurityTokenDescriptor()
+            var accessToken = GenerateAccessToken(user);
+            var refreshToken = GenerateRefreshToken();
+
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+            await _db.SaveChangesAsync();
+
+            return new LoginResponseDTO
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.UserId.ToString()),
-                    new Claim(ClaimTypes.Role, user.Role)
-                }),
-                Expires = DateTime.UtcNow.AddHours(12),
-                Issuer = issuer,
-                Audience = audience,
-                SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            LoginResponseDTO loginResponseDto = new LoginResponseDTO()
-            {
-                Token = tokenHandler.WriteToken(token),
+                Token = accessToken,
+                RefreshToken = refreshToken,
                 User = user
             };
-            return loginResponseDto;
         }
         catch (Exception e)
         {
@@ -88,6 +81,80 @@ public class UserRepository:IUserRepository
         await _db.SaveChangesAsync();
         user.Password = "";
         return user;
+    }
+
+    public async Task<LoginResponseDTO> RefreshAsync(RefreshRequestDTO refreshRequestDto)
+    {
+        var principal = GetPrincipalFromExpiredToken(refreshRequestDto.AccessToken);
+        if (principal == null) return FailedLogin();
+
+        var userIdClaim = principal.FindFirst(ClaimTypes.Name)?.Value;
+        if (!int.TryParse(userIdClaim, out int userId)) return FailedLogin();
+
+        var user = await _db.Users.FindAsync(userId);
+        if (user == null
+            || user.RefreshToken != refreshRequestDto.RefreshToken
+            || user.RefreshTokenExpiry <= DateTime.UtcNow)
+            return FailedLogin();
+
+        var newAccessToken = GenerateAccessToken(user);
+        var newRefreshToken = GenerateRefreshToken();
+
+        user.RefreshToken = newRefreshToken;
+        user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+        await _db.SaveChangesAsync();
+
+        return new LoginResponseDTO
+        {
+            Token = newAccessToken,
+            RefreshToken = newRefreshToken,
+            User = user
+        };
+    }
+
+    private string GenerateAccessToken(User user)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.UTF8.GetBytes(secretKey);
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.Name, user.UserId.ToString()),
+                new Claim(ClaimTypes.Role, user.Role)
+            }),
+            Expires = DateTime.UtcNow.AddMinutes(15),
+            Issuer = issuer,
+            Audience = audience,
+            SigningCredentials = new SigningCredentials(
+                new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256Signature)
+        };
+        return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+    }
+
+    private static string GenerateRefreshToken()
+    {
+        var bytes = RandomNumberGenerator.GetBytes(64);
+        return Convert.ToBase64String(bytes);
+    }
+
+    private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+    {
+        var validationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+            ValidateIssuer = true,
+            ValidIssuer = issuer,
+            ValidateAudience = true,
+            ValidAudience = audience,
+            ValidateLifetime = false  // allow expired tokens , we only need the claims
+        };
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
+        return principal;
     }
 
     private LoginResponseDTO FailedLogin()
