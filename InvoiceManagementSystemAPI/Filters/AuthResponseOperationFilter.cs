@@ -9,8 +9,8 @@ public class AuthResponseOperationFilter:IOperationFilter
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
         var hasAllowAnonymous =
-            context.MethodInfo.DeclaringType.GetCustomAttributes(true)
-                .OfType<AllowAnonymousAttribute>().Any()
+            (context.MethodInfo.DeclaringType?.GetCustomAttributes(true)
+                .OfType<AllowAnonymousAttribute>().Any() ?? false)
             || context.MethodInfo.GetCustomAttributes(true)
                 .OfType<AllowAnonymousAttribute>().Any();
 
