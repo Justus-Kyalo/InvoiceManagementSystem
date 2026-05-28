@@ -38,7 +38,7 @@ public class UserRepository:IUserRepository
         return false;
     }
 
-    public  async Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDto)
+    public  async Task<LoginResponseDTO> LoginAsync(LoginRequestDTO loginRequestDto)
     {
         try
         {
@@ -68,7 +68,7 @@ public class UserRepository:IUserRepository
         }
     }
 
-    public async  Task<User> Register(RegistrationRequestDTO registrationRequestDto)
+    public async  Task<User> RegisterAsync(RegistrationRequestDTO registrationRequestDto)
     {
         User user = new User()
         {

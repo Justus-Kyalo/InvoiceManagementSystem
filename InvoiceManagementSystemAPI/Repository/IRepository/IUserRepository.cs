@@ -6,7 +6,7 @@ namespace InvoiceManagementSystemAPI.Repository.IRepository;
 public interface IUserRepository
 {
     bool IsUniqueUser(string username);
-    Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDto);
-    Task<User> Register(RegistrationRequestDTO registrationRequestDto);
+    Task<LoginResponseDTO> LoginAsync(LoginRequestDTO loginRequestDto);
+    Task<User> RegisterAsync(RegistrationRequestDTO registrationRequestDto);
     Task<LoginResponseDTO> RefreshAsync(RefreshRequestDTO refreshRequestDto);
 }

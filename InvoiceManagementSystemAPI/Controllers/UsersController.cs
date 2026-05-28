@@ -32,7 +32,7 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> Login(
         [FromBody] LoginRequestDTO model)
     {
-        var loginResponse = await _userRepo.Login(model);
+        var loginResponse = await _userRepo.LoginAsync(model);
 
         if (loginResponse.User == null ||
             string.IsNullOrEmpty(loginResponse.Token))
@@ -88,7 +88,7 @@ public class UsersController : ControllerBase
         
         model.Role = "clerk";
 
-        var user = await _userRepo.Register(model);
+        var user = await _userRepo.RegisterAsync(model);
         
         _response.StatusCode = HttpStatusCode.OK;
         _response.Result = user;
@@ -129,7 +129,7 @@ public class UsersController : ControllerBase
 
         model.Role = "admin";
 
-        var user = await  _userRepo.Register(model);
+        var user = await  _userRepo.RegisterAsync(model);
 
         _response.StatusCode = HttpStatusCode.OK;
         _response.Result = user;
